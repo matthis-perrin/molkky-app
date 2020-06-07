@@ -19,8 +19,3 @@ export const green = '#4caf50';
 export const APP_BACKGROUND_COLOR = black;
 export const APP_VERTICAL_PADDING = 16;
 export const APP_HORIZONTAL_PADDING = 16;
-
-export const SMALL_TEXT = 11;
-export const NORMAL_TEXT = 16;
-export const MEDIUM_TEXT = 19;
-export const LARGE_TEXT = 22;
