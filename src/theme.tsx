@@ -16,6 +16,6 @@ export const green = '#4caf50';
 //
 // UI constants
 //
-export const APP_BACKGROUND_COLOR = black;
+export const APP_BACKGROUND_COLOR = red;
 export const APP_VERTICAL_PADDING = 16;
 export const APP_HORIZONTAL_PADDING = 16;
