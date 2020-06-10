@@ -1,10 +1,13 @@
 import React from 'react';
+import {Alert, Button} from 'react-native';
 import styled from 'styled-components/native';
 
 export const App: React.FC = () => (
   <StyledSafeArea>
     <AppContainer>
-      <TopBar></TopBar>
+      <TopBar>
+        <Button title="Trust me" onPress={() => Alert.alert('I have a plan')} />
+      </TopBar>
       <Content></Content>
       <BottomBar></BottomBar>
     </AppContainer>
@@ -18,20 +21,23 @@ const StyledSafeArea = styled.SafeAreaView`
 const AppContainer = styled.View`
   display: flex;
   background-color: green;
+  /* height: 812px; */
   height: 100%;
 `;
 const TopBar = styled.View`
   display: flex;
+  flex-shrink: 0;
   background-color: blue;
-  height: 100px;
+  height: 50px;
 `;
 const Content = styled.View`
   display: flex;
+  flex-grow: 1;
   background-color: yellow;
-  height: 100%;
 `;
 const BottomBar = styled.View`
   display: flex;
+  flex-shrink: 0;
   background-color: black;
-  height: 100px;
+  height: 50px;
 `;
