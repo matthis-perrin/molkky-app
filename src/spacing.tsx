@@ -1,12 +1,14 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, ViewStyle} from 'react-native';
 
-export const VerticalSpacing: React.FC<{height: number}> = ({height}) => (
-  <View style={{width: '100%', height}} />
-);
+export const VerticalSpacing: React.FC<{height: number; style?: ViewStyle}> = ({
+  height,
+  style = {},
+}) => <View style={{width: '100%', height, ...style}} />;
 VerticalSpacing.displayName = 'VerticalSpacing';
 
-export const HorizontalSpacing: React.FC<{width: number}> = ({width}) => (
-  <View style={{height: '100%', width}} />
-);
+export const HorizontalSpacing: React.FC<{width: number; style?: ViewStyle}> = ({
+  width,
+  style = {},
+}) => <View style={{height: '100%', width, ...style}} />;
 HorizontalSpacing.displayName = 'HorizontalSpacing';
