@@ -51,31 +51,24 @@ const Content = styled.View`
 const Pastille = styled.View`
   display: flex;
   flex-direction: row;
-  flex-shrink: 1;
+  align-items: center;
+  flex-shrink: 0;
   height: 100px;
+  background-color: black;
 `;
 const Name = styled.Text`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
   flex-grow: 1;
   color: white;
   font-size: 36px;
-  background-color: black;
   padding-left: 10px;
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
 `;
 const Score = styled.Text`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  flex-shrink: 1;
+  flex-shrink: 0;
   color: white;
   font-size: 36px;
   width: 100px;
-  background-color: black;
   border-left-color: white;
   border-left-style: solid;
   border-left-width: 5px;
