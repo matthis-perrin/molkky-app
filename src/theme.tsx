@@ -13,6 +13,9 @@ export const lime = '#cddc39';
 export const lightGreen = '#8bc34a';
 export const green = '#4caf50';
 
+export const vert = '#16a085';
+export const gris = '#2c3e50';
+
 //
 // UI constants
 //
