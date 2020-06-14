@@ -2,8 +2,7 @@ import React from 'react';
 import {Alert, Button} from 'react-native';
 import styled from 'styled-components/native';
 
-import {Pastille} from './pastille';
-import {VerticalSpacing} from './spacing';
+import {PlayerList} from './player_list';
 import {gris} from './theme';
 
 export const App: React.FC = () => (
@@ -13,11 +12,7 @@ export const App: React.FC = () => (
         <Button title="Trust me" onPress={() => Alert.alert('I have a plan')} />
       </TopBar>
       <Content>
-        <Pastille name="Audric" score={22}></Pastille>
-        <VerticalSpacing height={10}></VerticalSpacing>
-        <Pastille name="Matthis" score={12}></Pastille>
-        <VerticalSpacing height={10}></VerticalSpacing>
-        <Pastille name="Raphaelle" score={0}></Pastille>
+        <PlayerList />
       </Content>
       <BottomBar></BottomBar>
     </AppContainer>
