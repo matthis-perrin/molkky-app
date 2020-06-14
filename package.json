@@ -5,6 +5,7 @@
     "lint": "eslint . --ext .tsx"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.2.0",
     "expo": "~37.0.3",
     "expo-updates": "~0.2.0",
     "react": "~16.9.0",

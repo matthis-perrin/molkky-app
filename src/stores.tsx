@@ -13,6 +13,14 @@ export function addPlayer(player: Player): void {
   const newPlayers = initialPlayers.concat([player]);
   setPlayers(newPlayers);
 }
-// addPlayer({name: 'Audric', score: 48});
-// addPlayer({name: 'Matthis', score: 1});
-// addPlayer({name: 'Raphaelle', score: 0});
+export function delPlayer(playerName: string): void {
+  console.log('delPlayer');
+  const initialPlayers = getPlayers();
+  const newPlayers: Player[] = [];
+  // for (const p of initialPlayers) {
+  //   if (p.name !== playerName) {
+  //     newPlayers.push(p);
+  //   }
+  // }
+  setPlayers(newPlayers);
+}

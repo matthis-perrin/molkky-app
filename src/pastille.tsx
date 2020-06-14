@@ -1,8 +1,10 @@
+import {Ionicons} from '@expo/vector-icons';
 import React, {useRef, useState} from 'react';
-import {Animated, LayoutAnimation, PanResponder} from 'react-native';
+import {Animated, Button, LayoutAnimation, PanResponder} from 'react-native';
 import styled from 'styled-components/native';
 
 import {HorizontalSpacing} from './spacing';
+import {delPlayer} from './stores';
 import {red, vert, white} from './theme';
 
 const scoreWidth = 100;
@@ -109,7 +111,8 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
           </ScoreWrapper>
         </Content>
         <ActionsWrapper>
-          <Actions>Actions</Actions>
+          <Button title="Del" onPress={() => delPlayer(name)} />
+          {/* <Ionicons name="md-checkmark-circle" size={32} color="green" /> */}
         </ActionsWrapper>
       </PastilleWrapper>
     </DisplayWrapper>
@@ -169,4 +172,3 @@ const ActionsWrapper = styled.View`
   width: 200px;
   background-color: ${red};
 `;
-const Actions = styled.Text``;

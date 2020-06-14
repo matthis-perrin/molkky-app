@@ -1,15 +1,16 @@
 import React from 'react';
-import {Alert, Button} from 'react-native';
+import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
 import {PlayerList} from './player_list';
+import {addPlayer} from './stores';
 import {gris} from './theme';
 
 export const App: React.FC = () => (
   <StyledSafeArea>
     <AppContainer>
       <TopBar>
-        <Button title="Trust me" onPress={() => Alert.alert('I have a plan')} />
+        <Button title="Add player" onPress={() => addPlayer({name: 'Audric', score: 48})} />
       </TopBar>
       <Content>
         <PlayerList />
