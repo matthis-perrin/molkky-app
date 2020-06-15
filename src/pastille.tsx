@@ -1,6 +1,7 @@
-import {Ionicons} from '@expo/vector-icons';
+import {FontAwesome} from '@expo/vector-icons';
 import React, {useRef, useState} from 'react';
-import {Animated, Button, LayoutAnimation, PanResponder} from 'react-native';
+import {Animated, LayoutAnimation, PanResponder} from 'react-native';
+import {Button} from 'react-native-elements';
 import styled from 'styled-components/native';
 
 import {HorizontalSpacing} from './spacing';
@@ -8,12 +9,13 @@ import {delPlayer} from './stores';
 import {red, vert, white} from './theme';
 
 const scoreWidth = 100;
+const actionWidth = 100;
 
 const MIN_OFFSET_BEFORE_AUTO_OPEN = 50;
 const MIN_OFFSET_BEFORE_AUTO_CLOSE = 10;
 
-const OPENED_RIGHT_OFFSET = -scoreWidth;
-const OPENED_LEFT_OFFSET = scoreWidth;
+const OPENED_RIGHT_OFFSET = -actionWidth;
+const OPENED_LEFT_OFFSET = actionWidth;
 const CLOSED_OFFSET = 0;
 
 function getNewPastilleOffsetAfterRelease(currentOffset: number, dx: number): number {
@@ -111,8 +113,11 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
           </ScoreWrapper>
         </Content>
         <ActionsWrapper>
-          <Button title="Del" onPress={() => delPlayer(name)} />
-          {/* <Ionicons name="md-checkmark-circle" size={32} color="green" /> */}
+          <Button
+            icon={<FontAwesome name="trash" size={100} style={{color: 'black'}} />}
+            onPress={() => delPlayer(name)}
+            buttonStyle={{height: '100%', width: '100%'}}
+          />
         </ActionsWrapper>
       </PastilleWrapper>
     </DisplayWrapper>
@@ -168,7 +173,9 @@ const Score = styled.Text`
 `;
 
 const ActionsWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
   height: 100%;
-  width: 200px;
-  background-color: ${red};
+  width: ${actionWidth};
+  background-color: ${vert};
 `;
