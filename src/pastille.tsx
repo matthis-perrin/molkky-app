@@ -4,6 +4,7 @@ import {Animated, LayoutAnimation, PanResponder} from 'react-native';
 import {Button} from 'react-native-elements';
 import styled from 'styled-components/native';
 
+import {CustomButton} from './custom_button';
 import {HorizontalSpacing} from './spacing';
 import {delPlayer} from './stores';
 import {rouge, vert, white} from './theme';
@@ -113,16 +114,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
           </ScoreWrapper>
         </Content>
         <ActionsWrapper>
-          <Button
-            icon={<FontAwesome name="trash" size={50} style={{color: white}} />}
-            onPress={() => delPlayer(name)}
-            buttonStyle={{
-              height: '100px',
-              width: '100px',
-              backgroundColor: rouge,
-              borderRadius: '0px',
-            }}
-          />
+          <CustomButton />
         </ActionsWrapper>
       </PastilleWrapper>
     </DisplayWrapper>

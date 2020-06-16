@@ -14,7 +14,6 @@ export function addPlayer(player: Player): void {
   setPlayers(newPlayers);
 }
 export function delPlayer(playerName: string): void {
-  console.log('delPlayer');
   const initialPlayers = getPlayers();
   const newPlayers: Player[] = [];
   // for (const p of initialPlayers) {
