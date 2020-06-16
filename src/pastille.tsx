@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 import {HorizontalSpacing} from './spacing';
 import {delPlayer} from './stores';
-import {red, vert, white} from './theme';
+import {rouge, vert, white} from './theme';
 
 const scoreWidth = 100;
 const actionWidth = 100;
@@ -114,9 +114,14 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
         </Content>
         <ActionsWrapper>
           <Button
-            icon={<FontAwesome name="trash" size={100} style={{color: 'black'}} />}
+            icon={<FontAwesome name="trash" size={50} style={{color: white}} />}
             onPress={() => delPlayer(name)}
-            buttonStyle={{height: '100%', width: '100%'}}
+            buttonStyle={{
+              height: '100px',
+              width: '100px',
+              backgroundColor: rouge,
+              borderRadius: '0px',
+            }}
           />
         </ActionsWrapper>
       </PastilleWrapper>
@@ -126,7 +131,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
 Pastille.displayName = 'Pastille';
 
 const DisplayWrapper = styled.View`
-  background-color: ${vert};
+  background-color: ${rouge};
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 25px;
   border-top-left-radius: 10px;
@@ -144,6 +149,7 @@ const PastilleWrapper = styled(Animated.View)`
 
 const Content = styled.View`
   width: 100%;
+  background-color: ${vert};
   display: flex;
   flex-direction: row;
 `;
@@ -175,7 +181,7 @@ const Score = styled.Text`
 const ActionsWrapper = styled.View`
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 100px;
   width: ${actionWidth};
   background-color: ${vert};
 `;
