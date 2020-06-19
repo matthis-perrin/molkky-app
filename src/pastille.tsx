@@ -114,7 +114,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
           </ScoreWrapper>
         </Content>
         <ActionsWrapper>
-          <CustomButton />
+          <CustomButton name={name} />
         </ActionsWrapper>
       </PastilleWrapper>
     </DisplayWrapper>

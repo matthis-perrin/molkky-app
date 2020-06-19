@@ -16,6 +16,7 @@ export const green = '#4caf50';
 export const vert = '#16a085';
 export const gris = '#2c3e50';
 export const rouge = '#e74c3c';
+export const blanc = '#FFFFFF';
 
 //
 // UI constants
