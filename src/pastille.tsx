@@ -1,12 +1,9 @@
-import {FontAwesome} from '@expo/vector-icons';
 import React, {useRef, useState} from 'react';
-import {Animated, LayoutAnimation, PanResponder} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Animated, LayoutAnimation, PanResponder, TextInput} from 'react-native';
 import styled from 'styled-components/native';
 
 import {CustomButton} from './custom_button';
 import {HorizontalSpacing} from './spacing';
-import {delPlayer} from './stores';
 import {rouge, vert, white} from './theme';
 
 const scoreWidth = 100;
@@ -94,6 +91,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
       },
     })
   );
+  const [value, onChangeText] = React.useState(name);
 
   return (
     <DisplayWrapper>
@@ -103,7 +101,11 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
       >
         <Content>
           <NameWrapper>
-            <Name>{name}</Name>
+            <TextInput
+              style={{height: 40, color: white, fontSize: 36, paddingLeft: 12}}
+              onChangeText={(text) => onChangeText(text)}
+              value={value}
+            />
           </NameWrapper>
           <HorizontalSpacing
             width={5}
@@ -151,11 +153,6 @@ const NameWrapper = styled.View`
   display: flex;
   justify-content: center;
 `;
-const Name = styled.Text`
-  color: white;
-  font-size: 36px;
-  padding-left: 12px;
-`;
 
 const ScoreWrapper = styled.View`
   flex-shrink: 0;
@@ -164,6 +161,7 @@ const ScoreWrapper = styled.View`
   justify-content: center;
   width: ${scoreWidth}px;
 `;
+
 const Score = styled.Text`
   text-align: center;
   color: white;

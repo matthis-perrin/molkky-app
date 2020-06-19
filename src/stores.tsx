@@ -1,5 +1,6 @@
 import {createPersistentDataStore} from './data_store';
 interface Player {
+  id: number;
   name: string;
   score: number;
 }
@@ -8,18 +9,19 @@ const playerDataStore = createPersistentDataStore('players', [] as Player[]);
 export const getPlayers = playerDataStore.getData;
 export const setPlayers = playerDataStore.setData;
 export const usePlayers = playerDataStore.useData;
-export function addPlayer(player: Player): void {
+export function addPlayer(): void {
   const initialPlayers = getPlayers();
-  const newPlayers = initialPlayers.concat([player]);
+  const newPlayer = {id: 10, name: 'New player', score: 0};
+  const newPlayers = initialPlayers.concat([newPlayer]);
   setPlayers(newPlayers);
 }
-export function delPlayer(playerName: string): void {
+export function delPlayer(playerId: number): void {
   const initialPlayers = getPlayers();
   const newPlayers: Player[] = [];
-  // for (const p of initialPlayers) {
-  //   if (p.name !== playerName) {
-  //     newPlayers.push(p);
-  //   }
-  // }
+  for (const p of initialPlayers) {
+    if (p.id !== playerId) {
+      newPlayers.push(p);
+    }
+  }
   setPlayers(newPlayers);
 }

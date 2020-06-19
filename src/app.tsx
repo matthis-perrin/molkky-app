@@ -10,7 +10,7 @@ export const App: React.FC = () => (
   <StyledSafeArea>
     <AppContainer>
       <TopBar>
-        <Button title="Add player" onPress={() => addPlayer({name: 'Audric', score: 48})} />
+        <Button title="Add player" onPress={() => addPlayer()} />
       </TopBar>
       <Content>
         <PlayerList />
