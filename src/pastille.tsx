@@ -71,6 +71,8 @@ function getNewPastilleOffsetAfterRelease(currentOffset: number, dx: number): nu
   throw new Error(`Unexpected offset: currentOffset = ${currentOffset}, dx = ${dx}`);
 }
 
+const MIN_DELTA_VX_TO_CAPTURE_MOVE_EVENT = 5;
+
 export const Pastille: React.FC<{name: string; score: number}> = ({name, score}) => {
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [pastilleOffset, setPastilleOffset] = useState(CLOSED_OFFSET);
@@ -78,9 +80,10 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onStartShouldSetPanResponderCapture: () => false,
-      onMoveShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponderCapture: () => false,
+      onStartShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) =>
+        Math.abs(gestureState.vx) > MIN_DELTA_VX_TO_CAPTURE_MOVE_EVENT,
       onPanResponderGrant: () => setSwipeOffset(0),
       onPanResponderMove: (evt, gestureState) => setSwipeOffset(gestureState.dx),
       onPanResponderRelease: (evt, gestureState) => {
@@ -100,7 +103,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
         style={{left: Math.min(0, pastilleOffset + swipeOffset)}}
       >
         <Content>
-          <NameWrapper>
+          <NameWrapper onMoveShouldSetPanResponderCapture={() => false}>
             <TextInput
               style={{height: 40, color: white, fontSize: 36, paddingLeft: 12}}
               onChangeText={(text) => onChangeText(text)}
@@ -115,7 +118,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
             <Score>{score}</Score>
           </ScoreWrapper>
         </Content>
-        <ActionsWrapper onMoveShouldSetPanResponderCapture={() => true}>
+        <ActionsWrapper>
           <CustomButton name={name} />
         </ActionsWrapper>
       </PastilleWrapper>
