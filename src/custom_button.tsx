@@ -1,14 +1,13 @@
 import {FontAwesome} from '@expo/vector-icons';
 import React from 'react';
-import {TouchableHighlight} from 'react-native';
+import {Alert, TouchableHighlight} from 'react-native';
 import styled from 'styled-components/native';
 
-import {delPlayer} from './stores';
 import {blanc, rouge} from './theme';
 
 export const CustomButton: React.FC<{name: string}> = ({name}) => {
   function onPressButton(): void {
-    delPlayer(name);
+    Alert.alert(`Should delete ${name}?`);
   }
   return (
     <TouchableHighlight onPress={onPressButton}>

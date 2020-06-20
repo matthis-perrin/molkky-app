@@ -78,9 +78,7 @@ export const Pastille: React.FC<{name: string; score: number}> = ({name, score})
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onStartShouldSetPanResponderCapture: () => false,
       onMoveShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: () => setSwipeOffset(0),
       onPanResponderMove: (evt, gestureState) => setSwipeOffset(gestureState.dx),
       onPanResponderRelease: (evt, gestureState) => {
