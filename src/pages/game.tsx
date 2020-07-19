@@ -1,16 +1,17 @@
 import React, {Fragment} from 'react';
-import {Button, Text} from 'react-native';
+import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
-import {Game, setApp, useApp} from '../lib/stores';
+import {setApp, useApp, useGames} from '../lib/stores';
 
 interface GameProps {
-  game: Game;
+  gameId: number;
 }
 
 export const GamePage: React.FC<GameProps> = (props) => {
   const [app] = useApp();
-  const game = props.game;
+  const [games] = useGames();
+  const game = games.filter((g) => g.id === props.gameId)[0];
   if (game === undefined) {
     return <Fragment />;
   }

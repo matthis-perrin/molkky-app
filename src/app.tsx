@@ -12,10 +12,10 @@ export const App: React.FC = () => {
   let content = <Fragment />;
   if (app.currentPage === 'accueil') {
     content = <Accueil />;
-  } else if (app.currentPage === 'playGame' && app.currentGame) {
-    content = <GamePage game={app.currentGame} />;
-  } else if (app.currentPage === 'editGame' && app.currentGame) {
-    content = <Edit game={app.currentGame} />;
+  } else if (app.currentPage === 'playGame' && app.currentGameId !== undefined) {
+    content = <GamePage gameId={app.currentGameId} />;
+  } else if (app.currentPage === 'editGame' && app.currentGameId !== undefined) {
+    content = <Edit gameId={app.currentGameId} />;
   }
 
   return (
