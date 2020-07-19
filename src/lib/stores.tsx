@@ -56,7 +56,7 @@ export const addPlayer = (game: Game): void => {
     score: 0,
   };
   game.players = game.players.concat([newPlayer]);
-  setGames(getGames());
+  setGames(getGames().slice());
 };
 
 export const delPlayer = (game: Game, player: Player): void => {
