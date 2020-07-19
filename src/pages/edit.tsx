@@ -22,7 +22,7 @@ export const Edit: React.FC<EditProps> = (props) => {
     <Wrapper>
       <Button title="Delete" onPress={onPressDelete}></Button>
       <Titre>{`New Game (id: ${game.id})`}</Titre>
-      <Button title="Save" onPress={() => setApp({...app, currentPage: 'playGame'})}></Button>
+      <Button title="Play" onPress={() => setApp({...app, currentPage: 'playGame'})}></Button>
     </Wrapper>
   );
 };

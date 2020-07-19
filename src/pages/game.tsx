@@ -16,14 +16,21 @@ export const GamePage: React.FC<GameProps> = (props) => {
   }
   return (
     <Wrapper>
-      <Text>{`Playing Game ${game.id}`}</Text>
-      <Text>{`${game.players.length} players`}</Text>
-      <Button title="accueil" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
+      <Button title="Home" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
+      <Title>{`Playing Game ${game.id}`}</Title>
+      <Button title="Edit" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
     </Wrapper>
   );
 };
 GamePage.displayName = 'Game';
 
 const Wrapper = styled.View`
+  display: flex;
+  flex-direction: row;
   background-color: red;
+`;
+
+const Title = styled.Text`
+  flex-grow: 1;
+  text-align: center;
 `;
