@@ -3,7 +3,7 @@ import React from 'react';
 import {Alert, TouchableHighlight} from 'react-native';
 import styled from 'styled-components/native';
 
-import {blanc, rouge} from './theme';
+import {blanc, rouge} from '../lib/theme';
 
 export const CustomButton: React.FC<{name: string}> = ({name}) => {
   function onPressButton(): void {

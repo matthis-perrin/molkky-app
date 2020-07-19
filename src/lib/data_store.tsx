@@ -72,3 +72,9 @@ export function createPersistentDataStore<T>(
 
   return dataStore;
 }
+
+export function clearPersistentDataStore(name: string): void {
+  AsyncStorage.removeItem(name).catch(
+    (err) => console.error('Failure to clear data from the storage', err) // eslint-disable-line no-console
+  );
+}

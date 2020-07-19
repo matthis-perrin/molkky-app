@@ -4,8 +4,7 @@
     "slug": "app_audric",
     "version": "1.0.0",
     "platforms": [
-      "ios",
-      "web"
+      "ios"
     ],
     "orientation": "default",
     "icon": "./assets/icon.png",
