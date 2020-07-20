@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
+import {PlayerView} from '../components/player_view';
 import {setApp, useApp, useGames} from '../lib/stores';
 
 interface GameProps {
@@ -17,9 +18,16 @@ export const GamePage: React.FC<GameProps> = (props) => {
   }
   return (
     <Wrapper>
-      <Button title="Home" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
-      <Title>{`Playing Game ${game.id}`}</Title>
-      <Button title="Edit" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
+      <TopBar>
+        <Button title="Home" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
+        <Titre>{`Playing Game ${game.id}`}</Titre>
+        <Button title="Edit" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
+      </TopBar>
+      <Content>
+        {game.players.map((p) => (
+          <PlayerView gameId={game.id} playerId={p.id}></PlayerView>
+        ))}
+      </Content>
     </Wrapper>
   );
 };
@@ -27,11 +35,18 @@ GamePage.displayName = 'Game';
 
 const Wrapper = styled.View`
   display: flex;
-  flex-direction: row;
-  background-color: red;
+  flex-direction: column;
 `;
 
-const Title = styled.Text`
+const TopBar = styled.View`
+  flex-direction: row;
+`;
+
+const Content = styled.View`
+  flex-direction: column;
+`;
+
+const Titre = styled.Text`
   flex-grow: 1;
   text-align: center;
 `;

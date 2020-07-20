@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Button, Text} from 'react-native';
+import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
 import {addPlayer, delPlayer, Player, removeGame, setApp, useApp, useGames} from '../lib/stores';
@@ -22,9 +22,11 @@ export const Edit: React.FC<EditProps> = (props) => {
   const onPressDeletePlayer = (player: Player): void => {
     delPlayer(game, player);
   };
+  const onTextChange = (text: string, player: Player): void => {
+    player.name = text;
+  };
   const sortedPlayer = game.players.slice();
   sortedPlayer.sort((p1, p2) => p2.score - p1.score);
-  console.log('Edit');
   if (game === undefined) {
     return <Fragment />;
   }
@@ -38,10 +40,9 @@ export const Edit: React.FC<EditProps> = (props) => {
       <Content>
         {sortedPlayer.map((p) => (
           <PlayerWrapper>
-            <Text>
+            <TextInputPlayer onChangeText={(text: string) => onTextChange(text, p)}>
               {p.name}
-              {p.score}
-            </Text>
+            </TextInputPlayer>
             <Button title="Delete player" onPress={() => onPressDeletePlayer(p)}></Button>
           </PlayerWrapper>
         ))}
@@ -65,6 +66,10 @@ const Content = styled.View``;
 
 const PlayerWrapper = styled.View`
   flex-direction: row;
+`;
+
+const TextInputPlayer = styled.TextInput`
+  flex-grow: 1;
 `;
 
 const Titre = styled.Text`

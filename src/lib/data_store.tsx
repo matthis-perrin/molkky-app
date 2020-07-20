@@ -18,7 +18,6 @@ export function createDataStore<T>(initialValue?: T): DataStoreApi<T | undefined
   }
 
   function setData(data: T | undefined): void {
-    console.log(data, storeListeners);
     currentData = data;
     for (const listener of storeListeners) {
       listener(currentData);

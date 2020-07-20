@@ -10,9 +10,6 @@ interface PreviewGameProps {
 
 export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
   const [games] = useGames();
-  console.log('PreviewGame');
-  console.log(games);
-  console.log(props);
   const game = games.filter((g) => g.id === props.gameId)[0];
   const sortedPlayer = game.players.slice();
   sortedPlayer.sort((p1, p2) => p2.score - p1.score);
@@ -20,21 +17,24 @@ export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
     setApp({...getApp(), currentPage: 'playGame', currentGameId: props.gameId});
   };
   return (
-    <PreviewGameWrapper title={`Game ${game.id}`} onPress={onPressGame}>
-      {sortedPlayer.map((p) => (
-        <Text>
-          {p.name}
-          {p.failDesign}
-          {p.score}
-        </Text>
-      ))}
-      <Text>{props.gameId}</Text>
+    <PreviewGameWrapper onPress={onPressGame}>
+      <Wrapper>
+        {sortedPlayer.map((p) => (
+          <Text>
+            {p.name}
+            {p.score}
+          </Text>
+        ))}
+        <Text>{props.gameId}</Text>
+      </Wrapper>
     </PreviewGameWrapper>
   );
 };
 PreviewGame.displayName = 'PreviewGame';
 
-const PreviewGameWrapper = styled.Button`
+const PreviewGameWrapper = styled.TouchableHighlight`
   display: flex;
   align-items: center;
 `;
+
+const Wrapper = styled.View``;

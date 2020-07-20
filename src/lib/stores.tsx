@@ -61,4 +61,53 @@ export const addPlayer = (game: Game): void => {
 
 export const delPlayer = (game: Game, player: Player): void => {
   game.players = game.players.filter((p) => p.id !== player.id);
+  setGames(getGames().slice());
+};
+
+export const checkPerfect = (player: Player, game: Game): void => {
+  if (player.score === 0) {
+    return;
+  }
+  game.players.forEach((p) => {
+    if (p.id !== player.id && p.score === player.score) {
+      p.score = Math.floor(p.score / 2);
+      checkPerfect(p, game);
+    }
+  });
+};
+
+export const overtaking = (player: Player, game: Game): void => {
+  player.score = 25;
+  checkPerfect(player, game);
+};
+
+export const overFail = (player: Player, game: Game): void => {
+  const objectiveScore = 50;
+  if (player.score >= objectiveScore / 2) {
+    player.score = objectiveScore / 2;
+  } else {
+    player.score = 0;
+  }
+  player.fail = 0;
+  checkPerfect(player, game);
+};
+
+export const addPlay = (num: number, player: Player, game: Game): void => {
+  player.score = player.score + num;
+  const objectiveScore = 50;
+  if (player.score > objectiveScore) {
+    overtaking(player, game);
+  }
+  checkPerfect(player, game);
+  setGames(getGames().slice());
+};
+
+export const addFail = (player: Player, game: Game): void => {
+  player.fail += 1;
+  const maxFail = 3;
+  if (player.fail >= maxFail) {
+    overFail(player, game);
+  }
+  checkPerfect(player, game);
+  setGames(getGames().slice());
 };
