@@ -11,7 +11,7 @@ export interface Game {
   id: number;
   creationTime: number;
   players: Player[];
-  historyGames: Game[];
+  lastGame?: Game;
   lastPlay: string;
 }
 
@@ -36,7 +36,7 @@ export const createNewGame = (): void => {
     id: Math.round(Math.random() * 1000000),
     creationTime: Date.now(),
     players: [],
-    historyGames: [],
+    lastGame: undefined,
     lastPlay: 'La partie commence!',
   };
   setGames(getGames().concat([newGame]));
@@ -100,7 +100,7 @@ export const memorizeGame = (game: Game): Game => ({
   id: game.id,
   creationTime: game.creationTime,
   players: game.players.map((p) => ({...p})),
-  historyGames: game.historyGames.concat([game]),
+  lastGame: game,
   lastPlay: game.lastPlay,
 });
 
