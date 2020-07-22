@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
-import {Button, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 
 import {PreviewGame} from '../components/preview_game';
-import {createNewGame, removePersistentStore, useGames} from '../lib/stores';
+import {createNewGame, useGames} from '../lib/stores';
 
 export const Accueil: React.FC = () => {
   const [games] = useGames();
@@ -16,8 +16,7 @@ export const Accueil: React.FC = () => {
         <Title>"MOLKKY"</Title>
       </TopBar>
       <Content>
-        <Button title="Reset Data" onPress={removePersistentStore}></Button>
-        <NewGameButton title="NEW GAME" onPress={onPressNewGame}></NewGameButton>
+        <NewGameButton title="Nouvelle partie" onPress={onPressNewGame}></NewGameButton>
         <ScrollView>
           {games.map((g) => (
             <PreviewGame gameId={g.id} />

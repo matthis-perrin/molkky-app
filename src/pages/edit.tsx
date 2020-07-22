@@ -33,9 +33,9 @@ export const Edit: React.FC<EditProps> = (props) => {
   return (
     <Wrapper>
       <TopBar>
-        <Button title="Delete" onPress={onPressDelete}></Button>
-        <Titre>{`New Game (id: ${game.id})`}</Titre>
-        <Button title="Play" onPress={() => setApp({...app, currentPage: 'playGame'})}></Button>
+        <Button title="Supprimer" onPress={onPressDelete}></Button>
+        <Titre>{`Nouvelle partie (id: ${game.id})`}</Titre>
+        <Button title="Jouer!" onPress={() => setApp({...app, currentPage: 'playGame'})}></Button>
       </TopBar>
       <Content>
         {sortedPlayer.map((p) => (
@@ -43,10 +43,10 @@ export const Edit: React.FC<EditProps> = (props) => {
             <TextInputPlayer onChangeText={(text: string) => onTextChange(text, p)}>
               {p.name}
             </TextInputPlayer>
-            <Button title="Delete player" onPress={() => onPressDeletePlayer(p)}></Button>
+            <Button title="Supprimer joueur" onPress={() => onPressDeletePlayer(p)}></Button>
           </PlayerWrapper>
         ))}
-        <Button title="Add Player" onPress={onPressAddPlayer}></Button>
+        <Button title="Ajouter joueur" onPress={onPressAddPlayer}></Button>
       </Content>
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import React from 'react';
-import {Button} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {addFail, addPlay, useGames} from '../lib/stores';
@@ -20,10 +20,15 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   const onPressFail = (): void => {
     addFail(player, game);
   };
+  const fails: JSX.Element[] = [];
+  for (let i = 0; player.fail > i; i++) {
+    fails.push(<Text>X</Text>);
+  }
   return (
     <PlayerViewWrapper>
       <Wrapper>
         <Name>{player.name}</Name>
+        <View>{fails}</View>
         <Score>{player.score}</Score>
       </Wrapper>
       <KeyboardWrapper>
@@ -44,7 +49,7 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
           <Button title="12" onPress={() => onPressNumber(12)}></Button>
         </Line2>
         <Line3>
-          <Button title="FAIL" onPress={onPressFail}></Button>
+          <Button title="X" onPress={onPressFail}></Button>
         </Line3>
       </KeyboardWrapper>
     </PlayerViewWrapper>

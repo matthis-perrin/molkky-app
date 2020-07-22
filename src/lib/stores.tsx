@@ -11,6 +11,8 @@ export interface Game {
   id: number;
   creationTime: number;
   players: Player[];
+  historyGames: Game[];
+  lastPlay: string;
 }
 
 interface App {
@@ -34,6 +36,8 @@ export const createNewGame = (): void => {
     id: Math.round(Math.random() * 1000000),
     creationTime: Date.now(),
     players: [],
+    historyGames: [],
+    lastPlay: 'La partie!',
   };
   setGames(getGames().concat([newGame]));
   setApp({...getApp(), currentPage: 'editGame', currentGameId: newGame.id});
@@ -51,7 +55,7 @@ export const addPlayer = (game: Game): void => {
   const newPlayer: Player = {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     id: Math.round(Math.random() * 1000000),
-    name: 'New Player',
+    name: 'Nouveau joueur',
     fail: 0,
     score: 0,
   };
@@ -92,22 +96,41 @@ export const overFail = (player: Player, game: Game): void => {
   checkPerfect(player, game);
 };
 
+export const memorizeGame = (game: Game): Game => ({
+  id: game.id,
+  creationTime: game.creationTime,
+  players: game.players.map((p) => ({...p})),
+  historyGames: game.historyGames.concat([game]),
+  lastPlay: game.lastPlay,
+});
+
 export const addPlay = (num: number, player: Player, game: Game): void => {
-  player.score = player.score + num;
-  const objectiveScore = 50;
-  if (player.score > objectiveScore) {
-    overtaking(player, game);
+  const newGame = memorizeGame(game);
+  const newPlayer = newGame.players.filter((p) => p.id === player.id)[0];
+  if (num === 1) {
+    newGame.lastPlay = `${newPlayer.name} marque ${num} point`;
+  } else {
+    newGame.lastPlay = `${newPlayer.name} marque ${num} points`;
   }
-  checkPerfect(player, game);
-  setGames(getGames().slice());
+  newPlayer.score = newPlayer.score + num;
+  newPlayer.fail = 0;
+  const objectiveScore = 50;
+  if (newPlayer.score > objectiveScore) {
+    overtaking(newPlayer, newGame);
+  }
+  checkPerfect(newPlayer, newGame);
+  setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
 };
 
 export const addFail = (player: Player, game: Game): void => {
-  player.fail += 1;
+  const newGame = memorizeGame(game);
+  const newPlayer = newGame.players.filter((p) => p.id === player.id)[0];
+  newGame.lastPlay = `${newPlayer.name} a raté`;
+  newPlayer.fail += 1;
   const maxFail = 3;
-  if (player.fail >= maxFail) {
-    overFail(player, game);
+  if (newPlayer.fail >= maxFail) {
+    overFail(newPlayer, newGame);
   }
-  checkPerfect(player, game);
-  setGames(getGames().slice());
+  checkPerfect(newPlayer, newGame);
+  setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
 };

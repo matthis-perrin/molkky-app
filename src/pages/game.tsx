@@ -19,9 +19,9 @@ export const GamePage: React.FC<GameProps> = (props) => {
   return (
     <Wrapper>
       <TopBar>
-        <Button title="Home" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
-        <Titre>{`Playing Game ${game.id}`}</Titre>
-        <Button title="Edit" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
+        <Button title="Accueil" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
+        <Titre>{`Partie ${game.id} en cours`}</Titre>
+        <Button title="Edition" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
       </TopBar>
       <Content>
         {game.players.map((p) => (
