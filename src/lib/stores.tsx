@@ -134,3 +134,10 @@ export const addFail = (player: Player, game: Game): void => {
   checkPerfect(newPlayer, newGame);
   setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
 };
+
+export const loadingPreviusPlay = (game: Game): void => {
+  const newGame = game.lastGame;
+  if (newGame) {
+    setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
+  }
+};

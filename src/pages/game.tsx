@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
-import {Button, Text} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {PlayerView} from '../components/player_view';
-import {setApp, useApp, useGames} from '../lib/stores';
+import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
 
 interface GameProps {
   gameId: number;
@@ -24,7 +24,10 @@ export const GamePage: React.FC<GameProps> = (props) => {
         <Button title="Edition" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
       </TopBar>
       <Content>
-        <Text>{game.lastPlay}</Text>
+        <View>
+          <Button title="Précédent" onPress={() => loadingPreviusPlay(game)}></Button>
+          <Text>{game.lastPlay}</Text>
+        </View>
         {game.players.map((p) => (
           <PlayerView key={p.id} gameId={game.id} playerId={p.id}></PlayerView>
         ))}
