@@ -19,7 +19,7 @@ export const Accueil: React.FC = () => {
         <NewGameButton title="Nouvelle partie" onPress={onPressNewGame}></NewGameButton>
         <ScrollView>
           {games.map((g) => (
-            <PreviewGame gameId={g.id} />
+            <PreviewGame key={g.id} gameId={g.id} />
           ))}
         </ScrollView>
       </Content>

@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Button} from 'react-native';
+import {Button, Text} from 'react-native';
 import styled from 'styled-components/native';
 
 import {PlayerView} from '../components/player_view';
@@ -24,8 +24,9 @@ export const GamePage: React.FC<GameProps> = (props) => {
         <Button title="Edition" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
       </TopBar>
       <Content>
+        <Text>{game.lastPlay}</Text>
         {game.players.map((p) => (
-          <PlayerView gameId={game.id} playerId={p.id}></PlayerView>
+          <PlayerView key={p.id} gameId={game.id} playerId={p.id}></PlayerView>
         ))}
       </Content>
     </Wrapper>

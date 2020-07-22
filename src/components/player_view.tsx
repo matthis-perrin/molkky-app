@@ -22,7 +22,7 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   };
   const fails: JSX.Element[] = [];
   for (let i = 0; player.fail > i; i++) {
-    fails.push(<Text>X</Text>);
+    fails.push(<Text key={i}>X</Text>);
   }
   return (
     <PlayerViewWrapper>

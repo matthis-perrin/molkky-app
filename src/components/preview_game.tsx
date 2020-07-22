@@ -20,7 +20,7 @@ export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
     <PreviewGameWrapper onPress={onPressGame}>
       <Wrapper>
         {sortedPlayer.map((p) => (
-          <Text>
+          <Text key={p.id}>
             {p.name}
             {p.score}
           </Text>

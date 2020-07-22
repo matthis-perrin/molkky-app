@@ -37,7 +37,7 @@ export const createNewGame = (): void => {
     creationTime: Date.now(),
     players: [],
     historyGames: [],
-    lastPlay: 'La partie!',
+    lastPlay: 'La partie commence!',
   };
   setGames(getGames().concat([newGame]));
   setApp({...getApp(), currentPage: 'editGame', currentGameId: newGame.id});
