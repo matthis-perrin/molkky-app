@@ -11,6 +11,7 @@ export interface Game {
   id: number;
   creationTime: number;
   players: Player[];
+  currentPlayerId: number;
   lastGame?: Game;
   lastPlay: string;
 }
@@ -23,6 +24,9 @@ interface App {
 const gameDataStore = createPersistentDataStore<Game[]>('games', []);
 export const getGames = gameDataStore.getData;
 export const setGames = gameDataStore.setData;
+export const setGame = (game: Game): void => {
+  setGames(getGames().map((g) => (g.id === game.id ? {...game} : g)));
+};
 export const useGames = gameDataStore.useData;
 
 const appStore = createDataStore<App>({currentGameId: undefined, currentPage: 'accueil'});
@@ -36,6 +40,7 @@ export const createNewGame = (): void => {
     id: Math.round(Math.random() * 1000000),
     creationTime: Date.now(),
     players: [],
+    currentPlayerId: 0,
     lastGame: undefined,
     lastPlay: 'La partie commence!',
   };
@@ -60,12 +65,12 @@ export const addPlayer = (game: Game): void => {
     score: 0,
   };
   game.players = game.players.concat([newPlayer]);
-  setGames(getGames().slice());
+  setGame(game);
 };
 
 export const delPlayer = (game: Game, player: Player): void => {
   game.players = game.players.filter((p) => p.id !== player.id);
-  setGames(getGames().slice());
+  setGame(game);
 };
 
 export const checkPerfect = (player: Player, game: Game): void => {
@@ -100,9 +105,23 @@ export const memorizeGame = (game: Game): Game => ({
   id: game.id,
   creationTime: game.creationTime,
   players: game.players.map((p) => ({...p})),
+  currentPlayerId: game.currentPlayerId,
   lastGame: game,
   lastPlay: game.lastPlay,
 });
+
+function getNextPlayerId(game: Game): number {
+  for (let index = 0; index < game.players.length; index++) {
+    const p = game.players[index];
+    if (p.id === game.currentPlayerId) {
+      if (index === game.players.length - 1) {
+        return game.players[0].id;
+      }
+      return game.players[index + 1].id;
+    }
+  }
+  return -1;
+}
 
 export const addPlay = (num: number, player: Player, game: Game): void => {
   const newGame = memorizeGame(game);
@@ -119,7 +138,8 @@ export const addPlay = (num: number, player: Player, game: Game): void => {
     overtaking(newPlayer, newGame);
   }
   checkPerfect(newPlayer, newGame);
-  setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
+  newGame.currentPlayerId = getNextPlayerId(newGame);
+  setGame(newGame);
 };
 
 export const addFail = (player: Player, game: Game): void => {
@@ -132,12 +152,32 @@ export const addFail = (player: Player, game: Game): void => {
     overFail(newPlayer, newGame);
   }
   checkPerfect(newPlayer, newGame);
-  setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
+  newGame.currentPlayerId = getNextPlayerId(newGame);
+  setGame(newGame);
 };
 
 export const loadingPreviusPlay = (game: Game): void => {
   const newGame = game.lastGame;
   if (newGame) {
-    setGames(getGames().map((g) => (g.id === newGame.id ? newGame : g)));
+    setGame(newGame);
   }
+};
+
+export const movePlayerDown = (player: Player, game: Game): void => {
+  for (let index = 0; index < game.players.length; index++) {
+    const p = game.players[index];
+    if (p.id === player.id) {
+      [game.players[index], game.players[index + 1]] = [
+        game.players[index + 1],
+        game.players[index],
+      ];
+      setGame(game);
+      return;
+    }
+  }
+};
+
+export const setPlayerFailDesign = (text: string, player: Player, game: Game): void => {
+  game.players = game.players.map((p) => (p.id === player.id ? {...p, failDesign: text} : p));
+  setGame(game);
 };

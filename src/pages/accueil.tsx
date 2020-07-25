@@ -1,8 +1,9 @@
 import React, {Fragment} from 'react';
-import {ScrollView} from 'react-native';
+import {Button, ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 
 import {PreviewGame} from '../components/preview_game';
+import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, useGames} from '../lib/stores';
 
 export const Accueil: React.FC = () => {
@@ -16,6 +17,7 @@ export const Accueil: React.FC = () => {
         <Title>"MOLKKY"</Title>
       </TopBar>
       <Content>
+        <Button title="Reset Data" onPress={() => clearPersistentDataStore('games')}></Button>
         <NewGameButton title="Nouvelle partie" onPress={onPressNewGame}></NewGameButton>
         <ScrollView>
           {games.map((g) => (

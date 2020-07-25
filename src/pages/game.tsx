@@ -26,10 +26,17 @@ export const GamePage: React.FC<GameProps> = (props) => {
       <Content>
         <View>
           <Button title="Précédent" onPress={() => loadingPreviusPlay(game)}></Button>
-          <Text>{game.lastPlay}</Text>
+          <LastPlay>
+            <Text>{game.lastPlay}</Text>
+          </LastPlay>
         </View>
         {game.players.map((p) => (
-          <PlayerView key={p.id} gameId={game.id} playerId={p.id}></PlayerView>
+          <PlayerView
+            key={p.id}
+            gameId={game.id}
+            playerId={p.id}
+            isCurrentPlayer={p.id === game.currentPlayerId}
+          ></PlayerView>
         ))}
       </Content>
     </Wrapper>
@@ -53,4 +60,11 @@ const Content = styled.View`
 const Titre = styled.Text`
   flex-grow: 1;
   text-align: center;
+`;
+
+const LastPlay = styled.View`
+  display: flex;
+  align-items: center;
+  background-color: #ccc;
+  padding: 16px;
 `;
