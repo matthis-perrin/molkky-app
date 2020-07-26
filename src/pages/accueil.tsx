@@ -6,6 +6,7 @@ import {CustomButton} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
 // import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, useGames} from '../lib/stores';
+import {darkGray, fontSizes, spacing} from '../lib/theme';
 
 export const Accueil: React.FC = () => {
   const [games] = useGames();
@@ -15,7 +16,7 @@ export const Accueil: React.FC = () => {
   return (
     <Fragment>
       <TopBar>
-        <Title>"MOLKKY"</Title>
+        <Title>MOLKKY</Title>
       </TopBar>
       <Content>
         {/* <CustomButtonText
@@ -23,12 +24,9 @@ export const Accueil: React.FC = () => {
           onPress={() => clearPersistentDataStore('games')}
           size="small"
         ></CustomButtonText> */}
-        <NewGameButton
-          text="Nouvelle partie"
-          icon="plus"
-          size="large"
-          onPress={onPressNewGame}
-        ></NewGameButton>
+        <WrapperAdd>
+          <CustomButton text="Nouvelle partie" icon="plus" size="large" onPress={onPressNewGame} />
+        </WrapperAdd>
         <ScrollView>
           {games.map((g) => (
             <PreviewGame key={g.id} gameId={g.id} />
@@ -40,12 +38,25 @@ export const Accueil: React.FC = () => {
 };
 Accueil.displayName = 'Accueil';
 
-const TopBar = styled.View``;
+const TopBar = styled.View`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-shrink: 0;
+  background-color: ${darkGray};
+  padding: ${spacing / 2}px;
+`;
 const Title = styled.Text`
-  background-color: red;
+  font-size: ${fontSizes.medium}px;
+  flex-grow: 1;
+  text-align: center;
 `;
 const Content = styled.View`
   display: flex;
   flex-direction: column;
 `;
-const NewGameButton = styled(CustomButton)``;
+
+const WrapperAdd = styled.View`
+  margin: ${spacing}px;
+  margin-bottom: 0px;
+`;

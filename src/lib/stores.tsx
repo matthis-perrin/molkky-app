@@ -62,7 +62,7 @@ export const addPlayer = (game: Game): void => {
   const newPlayer: Player = {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     id: Math.round(Math.random() * 1000000),
-    name: 'Nouveau joueur',
+    name: `Nouveau joueur ${game.players.length + 1}`,
     fail: 0,
     score: 0,
     failDesign: '💣',

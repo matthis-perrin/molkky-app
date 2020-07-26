@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Alert, Button, View} from 'react-native';
+import {Alert, Keyboard, ScrollView, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {CustomButton} from '../components/custom_buttons';
@@ -77,6 +77,7 @@ export const Edit: React.FC<EditProps> = (props) => {
   };
   const onFailDesignChange = (text: string, player: Player): void => {
     setPlayerFailDesign(text, player, game);
+    Keyboard.dismiss();
   };
   return (
     <Wrapper>
@@ -96,16 +97,17 @@ export const Edit: React.FC<EditProps> = (props) => {
           width={topBarButtonWidth}
         />
       </TopBar>
-      <Content>
+      <ScrollView keyboardShouldPersistTaps="handled">
         {sortedPlayer.map((p, index) => (
-          <View key={p.id} style={{position: 'relative'}}>
+          <Fragment key={p.id}>
             <PlayerWrapper>
               <TextInputFailDesign
-                maxLength={2}
+                caretHidden
                 onChangeText={(text: string) => onFailDesignChange(text, p)}
                 defaultValue={p.failDesign}
               />
               <TextInputPlayer
+                selectTextOnFocus
                 onChangeText={(text: string) => onTextChange(text, p)}
                 defaultValue={p.name}
               />
@@ -122,17 +124,18 @@ export const Edit: React.FC<EditProps> = (props) => {
                 />
               )}
             </WrapperSwap>
-          </View>
+          </Fragment>
         ))}
-        <WrapperAdd>
-          <CustomButton
-            icon="account-plus"
-            text="Ajouter joueur"
-            onPress={onPressAddPlayer}
-            size="large"
-          />
-        </WrapperAdd>
-      </Content>
+        <View style={{height: spacing}}></View>
+      </ScrollView>
+      <WrapperAdd>
+        <CustomButton
+          icon="account-plus"
+          text="Ajouter joueur"
+          onPress={onPressAddPlayer}
+          size="large"
+        />
+      </WrapperAdd>
     </Wrapper>
   );
 };
@@ -151,9 +154,8 @@ const TopBar = styled.View`
   flex-shrink: 0;
   background-color: ${darkGray};
   padding: ${spacing / 2}px;
+  margin-bottom: ${spacing}px;
 `;
-
-const Content = styled.View``;
 
 const PlayerWrapper = styled.View`
   display: flex;
@@ -163,7 +165,6 @@ const PlayerWrapper = styled.View`
   margin: 0px ${spacing}px;
   border-radius: ${borderRadius * 2}px;
   background-color: ${gray};
-  z-index: 1;
 `;
 
 const TextInputPlayer = styled.TextInput`
@@ -201,5 +202,4 @@ const WrapperSwap = styled.View`
   align-items: center;
   margin: ${-spacing / 2}px 0;
   z-index: 2;
-  position: relative;
 `;

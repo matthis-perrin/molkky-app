@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
 import {CustomButton} from '../components/custom_buttons';
