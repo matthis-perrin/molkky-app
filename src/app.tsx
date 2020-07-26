@@ -1,10 +1,13 @@
 import React, {Fragment} from 'react';
 import styled from 'styled-components/native';
 
+// import {clearPersistentDataStore} from './lib/data_store';
 import {useApp} from './lib/stores';
 import {Accueil} from './pages/accueil';
 import {Edit} from './pages/edit';
 import {GamePage} from './pages/game';
+
+// clearPersistentDataStore('games');
 
 export const App: React.FC = () => {
   const [app] = useApp();

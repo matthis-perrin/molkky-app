@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Alert, Button} from 'react-native';
+import {Alert, Button, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {CustomButton} from '../components/custom_buttons';
@@ -15,7 +15,16 @@ import {
   useApp,
   useGames,
 } from '../lib/stores';
-import {fontSizes, topBarButtonWidth} from '../lib/theme';
+import {
+  borderRadius,
+  buttonHeight,
+  darkGray,
+  fontSizes,
+  gray,
+  spacing,
+  topBarButtonWidth,
+  white,
+} from '../lib/theme';
 
 interface EditProps {
   gameId: number;
@@ -89,29 +98,40 @@ export const Edit: React.FC<EditProps> = (props) => {
       </TopBar>
       <Content>
         {sortedPlayer.map((p, index) => (
-          <PlayerWrapper key={p.id}>
-            <TextInputFailDesign
-              maxLength={2}
-              onChangeText={(text: string) => onFailDesignChange(text, p)}
-              defaultValue={p.failDesign}
-            />
-            <TextInputPlayer
-              onChangeText={(text: string) => onTextChange(text, p)}
-              defaultValue={p.name}
-            />
-            <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
-            {index === game.players.length - 1 ? (
-              <Fragment />
-            ) : (
-              <CustomButton
-                icon="swap-vertical-bold"
-                onPress={() => onPressSwap(p)}
-                iconSizeRatio={1.2}
+          <View key={p.id} style={{position: 'relative'}}>
+            <PlayerWrapper>
+              <TextInputFailDesign
+                maxLength={2}
+                onChangeText={(text: string) => onFailDesignChange(text, p)}
+                defaultValue={p.failDesign}
               />
-            )}
-          </PlayerWrapper>
+              <TextInputPlayer
+                onChangeText={(text: string) => onTextChange(text, p)}
+                defaultValue={p.name}
+              />
+              <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
+            </PlayerWrapper>
+            <WrapperSwap>
+              {index === game.players.length - 1 ? (
+                <Fragment />
+              ) : (
+                <CustomButton
+                  icon="swap-vertical-bold"
+                  onPress={() => onPressSwap(p)}
+                  iconSizeRatio={1.2}
+                />
+              )}
+            </WrapperSwap>
+          </View>
         ))}
-        <CustomButton icon="account-plus" text="Ajouter joueur" onPress={onPressAddPlayer} />
+        <WrapperAdd>
+          <CustomButton
+            icon="account-plus"
+            text="Ajouter joueur"
+            onPress={onPressAddPlayer}
+            size="large"
+          />
+        </WrapperAdd>
       </Content>
     </Wrapper>
   );
@@ -121,35 +141,65 @@ Edit.displayName = 'Edit';
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 const TopBar = styled.View`
   display: flex;
   align-items: center;
   flex-direction: row;
+  flex-shrink: 0;
+  background-color: ${darkGray};
+  padding: ${spacing / 2}px;
 `;
 
 const Content = styled.View``;
 
 const PlayerWrapper = styled.View`
+  display: flex;
   flex-direction: row;
-  padding: 16px;
+  align-items: center;
+  padding: ${spacing}px;
+  margin: 0px ${spacing}px;
+  border-radius: ${borderRadius * 2}px;
+  background-color: ${gray};
+  z-index: 1;
 `;
 
 const TextInputPlayer = styled.TextInput`
   flex-grow: 1;
-  margin: 0 16px;
+  margin: 0 ${spacing}px;
+  background-color: ${white};
+  font-size: ${fontSizes.medium}px;
+  height: ${buttonHeight.medium}px;
+  border-radius: ${borderRadius}px;
+  padding-left: ${spacing}px;
 `;
 
 const TextInputFailDesign = styled.TextInput`
   text-align: center;
-  width: 32px;
-  height: 32px;
-  border: black 2px solid;
+  flex-shrink: 0;
+  background-color: ${white};
+  font-size: ${fontSizes.medium}px;
+  height: ${buttonHeight.medium}px;
+  width: ${buttonHeight.medium}px;
+  border-radius: ${borderRadius}px;
 `;
 
 const Titre = styled.Text`
   font-size: ${fontSizes.medium}px;
   flex-grow: 1;
   text-align: center;
+`;
+
+const WrapperAdd = styled.View`
+  margin: ${spacing}px;
+  margin-bottom: 0px;
+`;
+
+const WrapperSwap = styled.View`
+  align-items: center;
+  margin: ${-spacing / 2}px 0;
+  z-index: 2;
+  position: relative;
 `;
