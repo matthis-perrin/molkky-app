@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react';
-import {Button, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 
+import {CustomButtonText} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
 import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, useGames} from '../lib/stores';
@@ -17,7 +18,21 @@ export const Accueil: React.FC = () => {
         <Title>"MOLKKY"</Title>
       </TopBar>
       <Content>
-        <Button title="Reset Data" onPress={() => clearPersistentDataStore('games')}></Button>
+        <CustomButtonText
+          text="Reset Data"
+          onPress={() => clearPersistentDataStore('games')}
+          fontSize="small"
+        ></CustomButtonText>
+        <CustomButtonText
+          text="Reset Data"
+          onPress={() => clearPersistentDataStore('games')}
+          fontSize="medium"
+        ></CustomButtonText>
+        <CustomButtonText
+          text="Reset Data"
+          onPress={() => clearPersistentDataStore('games')}
+          fontSize="large"
+        ></CustomButtonText>
         <NewGameButton title="Nouvelle partie" onPress={onPressNewGame}></NewGameButton>
         <ScrollView>
           {games.map((g) => (
