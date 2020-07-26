@@ -74,18 +74,18 @@ export const Edit: React.FC<EditProps> = (props) => {
       <TopBar>
         <CustomButton
           icon="trash-can-outline"
-          text="Supprimer"
+          text="Effacer"
           onPress={onPressDelete}
           iconSizeRatio={1.2}
           width={topBarButtonWidth}
-        ></CustomButton>
+        />
         <Titre>{`Edition`}</Titre>
         <CustomButton
-          text="Jouer!"
+          text="Jouer !"
           onPress={onPressPlay}
           disabled={game.players.length === 0}
           width={topBarButtonWidth}
-        ></CustomButton>
+        />
       </TopBar>
       <Content>
         {sortedPlayer.map((p, index) => (
@@ -93,16 +93,13 @@ export const Edit: React.FC<EditProps> = (props) => {
             <TextInputFailDesign
               maxLength={2}
               onChangeText={(text: string) => onFailDesignChange(text, p)}
-            >
-              {p.failDesign}
-            </TextInputFailDesign>
-            <TextInputPlayer onChangeText={(text: string) => onTextChange(text, p)}>
-              {p.name}
-            </TextInputPlayer>
-            <CustomButton
-              icon="backspace-outline"
-              onPress={() => onPressDeletePlayer(p)}
-            ></CustomButton>
+              defaultValue={p.failDesign}
+            />
+            <TextInputPlayer
+              onChangeText={(text: string) => onTextChange(text, p)}
+              defaultValue={p.name}
+            />
+            <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
             {index === game.players.length - 1 ? (
               <Fragment />
             ) : (
@@ -110,15 +107,11 @@ export const Edit: React.FC<EditProps> = (props) => {
                 icon="swap-vertical-bold"
                 onPress={() => onPressSwap(p)}
                 iconSizeRatio={1.2}
-              ></CustomButton>
+              />
             )}
           </PlayerWrapper>
         ))}
-        <CustomButton
-          icon="account-plus"
-          text="Ajouter joueur"
-          onPress={onPressAddPlayer}
-        ></CustomButton>
+        <CustomButton icon="account-plus" text="Ajouter joueur" onPress={onPressAddPlayer} />
       </Content>
     </Wrapper>
   );

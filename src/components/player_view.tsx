@@ -1,9 +1,20 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React from 'react';
-import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
 import {addFail, addPlay, isDone, useGames} from '../lib/stores';
+import {
+  black,
+  borderRadius,
+  charcoal,
+  darkGray,
+  fontSizes,
+  gray,
+  scoreButtonWidth,
+  spacing,
+} from '../lib/theme';
+import {CustomButton} from './custom_buttons';
 import {PlayerFailIcon} from './fail_icon';
 
 interface PlayerViewProps {
@@ -11,6 +22,8 @@ interface PlayerViewProps {
   playerId: number;
   isCurrentPlayer: boolean;
 }
+
+const maxFail = 3;
 
 export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   const [games] = useGames();
@@ -22,40 +35,48 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   const onPressFail = (): void => {
     addFail(player, game);
   };
-  const maxFail = 3;
   return (
     <PlayerViewWrapper
       style={{
-        backgroundColor: props.isCurrentPlayer && !isDone(game) ? '#0000ff20' : 'transparent',
+        backgroundColor: props.isCurrentPlayer && !isDone(game) ? darkGray : gray,
       }}
     >
       <Wrapper>
-        <Name>{player.name}</Name>
+        <MaterialCommunityIcons
+          name={'play'}
+          size={fontSizes.medium}
+          color={black}
+          style={{display: props.isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
+        />
+        <Name numberOfLines={1} ellipsizeMode="tail">
+          {player.name}
+        </Name>
         <PlayerFailIcon player={player} maxFail={maxFail} />
         <Score>{player.score}</Score>
       </Wrapper>
       <KeyboardWrapper
         style={{display: props.isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
       >
+        <BorderSeparator></BorderSeparator>
         <Line>
-          <ScoreButton title="1" onPress={() => onPressNumber(1)} />
-          <ScoreButton title="2" onPress={() => onPressNumber(2)} />
-          <ScoreButton title="3" onPress={() => onPressNumber(3)} />
-          <ScoreButton title="4" onPress={() => onPressNumber(4)} />
-          <ScoreButton title="5" onPress={() => onPressNumber(5)} />
-          <ScoreButton title="6" onPress={() => onPressNumber(6)} />
+          <CustomButton width={scoreButtonWidth} text="1" onPress={() => onPressNumber(1)} />
+          <CustomButton width={scoreButtonWidth} text="2" onPress={() => onPressNumber(2)} />
+          <CustomButton width={scoreButtonWidth} text="3" onPress={() => onPressNumber(3)} />
+          <CustomButton width={scoreButtonWidth} text="4" onPress={() => onPressNumber(4)} />
         </Line>
         <Line>
-          <ScoreButton title="7" onPress={() => onPressNumber(7)} />
-          <ScoreButton title="8" onPress={() => onPressNumber(8)} />
-          <ScoreButton title="9" onPress={() => onPressNumber(9)} />
-          <ScoreButton title="10" onPress={() => onPressNumber(10)} />
-          <ScoreButton title="11" onPress={() => onPressNumber(11)} />
-          <ScoreButton title="12" onPress={() => onPressNumber(12)} />
+          <CustomButton width={scoreButtonWidth} text="5" onPress={() => onPressNumber(5)} />
+          <CustomButton width={scoreButtonWidth} text="6" onPress={() => onPressNumber(6)} />
+          <CustomButton width={scoreButtonWidth} text="7" onPress={() => onPressNumber(7)} />
+          <CustomButton width={scoreButtonWidth} text="8" onPress={() => onPressNumber(8)} />
         </Line>
-        <Line3>
-          <Button title={player.failDesign} onPress={onPressFail}></Button>
-        </Line3>
+        <Line>
+          <CustomButton width={scoreButtonWidth} text="9" onPress={() => onPressNumber(9)} />
+          <CustomButton width={scoreButtonWidth} text="10" onPress={() => onPressNumber(10)} />
+          <CustomButton width={scoreButtonWidth} text="11" onPress={() => onPressNumber(11)} />
+          <CustomButton width={scoreButtonWidth} text="12" onPress={() => onPressNumber(12)} />
+        </Line>
+        <CustomButton text={`${player.failDesign} Raté`} onPress={onPressFail} />
       </KeyboardWrapper>
     </PlayerViewWrapper>
   );
@@ -65,22 +86,28 @@ PlayerView.displayName = 'PlayerView';
 const PlayerViewWrapper = styled.View`
   display: flex;
   flex-direction: column;
-  padding: 32px;
+  padding: ${spacing}px;
+  margin: ${spacing}px;
+  margin-bottom: 0px;
+  border-radius: ${borderRadius * 2}px;
 `;
 
 const Wrapper = styled.View`
   display: flex;
   flex-direction: row;
+  align-items: center;
 `;
 
 const Name = styled.Text`
+  flex-shrink: 1;
   flex-grow: 1;
-  font-size: 20px;
+  font-size: ${fontSizes.medium}px;
 `;
 
 const Score = styled.Text`
-  width: 50px;
-  font-size: 20px;
+  width: 40px;
+  flex-shrink: 0;
+  font-size: ${fontSizes.extraLarge}px;
   font-weight: 500;
   text-align: right;
 `;
@@ -90,21 +117,17 @@ const KeyboardWrapper = styled.View`
   flex-direction: column;
 `;
 
+const BorderSeparator = styled.View`
+  height: 1px;
+  background-color: ${charcoal};
+  margin-top: ${spacing}px;
+  margin-bottom: ${spacing}px;
+`;
+
 const Line = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-`;
-
-const Line3 = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
-
-const ScoreButton = styled.Button`
-  text-align: center;
-  font-size: 20px;
-  padding: 8px;
+  justify-content: space-between;
+  margin-bottom: 7px;
 `;

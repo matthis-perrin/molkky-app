@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {Player} from '../lib/stores';
@@ -11,7 +11,7 @@ interface FailIconProps {
 
 export const FailIcon: React.FC<FailIconProps> = (props) => (
   <FailIconWrapper>
-    <Text style={props.disable ? {opacity: 0.5} : {}}>{props.failDesign}</Text>
+    <Text style={props.disable ? {opacity: 0.3} : {}}>{props.failDesign}</Text>
   </FailIconWrapper>
 );
 FailIcon.displayName = 'FailIcon';
@@ -20,9 +20,6 @@ const FailIconWrapper = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
-  height: 48px;
-  width: 48px;
 `;
 
 interface PlayerFailIconProps {
@@ -31,9 +28,11 @@ interface PlayerFailIconProps {
 }
 
 export const PlayerFailIcon: React.FC<PlayerFailIconProps> = (props) => {
+  const spacing = 4;
   const fails: JSX.Element[] = [];
   for (let i = 0; i < props.maxFail; i++) {
     fails.push(
+      <View style={{width: i === 0 ? 0 : spacing}}></View>,
       <FailIcon key={i} failDesign={props.player.failDesign} disable={i >= props.player.fail} />
     );
   }
@@ -43,7 +42,7 @@ PlayerFailIcon.displayName = 'PlayerFailIcon';
 
 const PlayerFailIconWrapper = styled.View`
   display: flex;
+  flex-shrink: 0;
   flex-direction: row;
   align-items: center;
-  background-color: green;
 `;
