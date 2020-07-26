@@ -5,11 +5,14 @@ import styled from 'styled-components/native';
 import {CustomButton} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
 // import {clearPersistentDataStore} from '../lib/data_store';
-import {createNewGame, useGames} from '../lib/stores';
+import {createNewGame, isDone, useGames} from '../lib/stores';
 import {darkGray, fontSizes, spacing} from '../lib/theme';
 
 export const Accueil: React.FC = () => {
   const [games] = useGames();
+  const sortedGames = games.sort((g1, g2) => g2.creationTime - g1.creationTime);
+  const gameInProgress = sortedGames.filter((g) => !isDone(g));
+  const gameDone = sortedGames.filter((g) => isDone(g));
   const onPressNewGame = (): void => {
     createNewGame();
   };
@@ -28,7 +31,10 @@ export const Accueil: React.FC = () => {
           <CustomButton text="Nouvelle partie" icon="plus" size="large" onPress={onPressNewGame} />
         </WrapperAdd>
         <ScrollView>
-          {games.map((g) => (
+          {gameInProgress.map((g) => (
+            <PreviewGame key={g.id} gameId={g.id} />
+          ))}
+          {gameDone.map((g) => (
             <PreviewGame key={g.id} gameId={g.id} />
           ))}
         </ScrollView>
@@ -54,9 +60,10 @@ const Title = styled.Text`
 const Content = styled.View`
   display: flex;
   flex-direction: column;
+  margin: ${spacing}px;
+  margin-bottom: 0px;
 `;
 
 const WrapperAdd = styled.View`
-  margin: ${spacing}px;
-  margin-bottom: 0px;
+  margin-bottom: ${spacing}px;
 `;

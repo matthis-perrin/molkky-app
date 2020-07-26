@@ -1,12 +1,18 @@
-import React from 'react';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import React, {Fragment} from 'react';
 import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
-import {getApp, setApp, useGames} from '../lib/stores';
+import {formatDate} from '../lib/format';
+import {getApp, isDone, Player, setApp, useGames} from '../lib/stores';
+import {black, borderRadius, fontSizes, gray, spacing, white} from '../lib/theme';
+import {PlayerFailIcon} from './fail_icon';
 
 interface PreviewGameProps {
   gameId: number;
 }
+
+const maxFail = 3;
 
 export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
   const [games] = useGames();
@@ -16,25 +22,76 @@ export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
   const onPressGame = (): void => {
     setApp({...getApp(), currentPage: 'playGame', currentGameId: props.gameId});
   };
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  const isWinner = (player: Player): boolean => player.score === 50;
   return (
-    <PreviewGameWrapper onPress={onPressGame}>
+    <PreviewGameWrapper activeOpacity={0.7} onPress={onPressGame}>
       <Wrapper>
+        <WrapperDate>
+          <CreationTime>{formatDate(game.creationTime)}</CreationTime>
+          <MaterialCommunityIcons
+            key="icon"
+            name={isDone(game) ? 'check' : 'sync'}
+            size={fontSizes.large}
+            color={black}
+          />
+        </WrapperDate>
         {sortedPlayer.map((p) => (
-          <Text key={p.id}>
-            {p.name}
-            {p.score}
-          </Text>
+          <WrapperPlayer key={p.id}>
+            <Name numberOfLines={1} ellipsizeMode="tail">
+              {`${isWinner(p) ? '🏆 ' : ''}${p.name}`}
+            </Name>
+            {isDone(game) ? <Fragment /> : <PlayerFailIcon player={p} maxFail={maxFail} />}
+            <Score>{p.score}</Score>
+          </WrapperPlayer>
         ))}
-        <Text>{props.gameId}</Text>
       </Wrapper>
     </PreviewGameWrapper>
   );
 };
 PreviewGame.displayName = 'PreviewGame';
 
-const PreviewGameWrapper = styled.TouchableHighlight`
+const PreviewGameWrapper = styled.TouchableOpacity`
   display: flex;
+  padding: ${spacing}px;
+  background-color: ${gray};
+  margin-bottom: ${spacing}px;
+  border-radius: ${borderRadius * 2}px;
+`;
+
+const WrapperDate = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
+
+const CreationTime = styled.Text`
+  flex-grow: 1;
+  text-align: left;
+  margin-bottom: ${spacing}px;
+  font-size: ${fontSizes.medium}px;
+`;
+
+const Wrapper = styled.View`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 
-const Wrapper = styled.View``;
+const WrapperPlayer = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Name = styled.Text`
+  flex-shrink: 1;
+  flex-grow: 1;
+  font-size: ${fontSizes.medium}px;
+`;
+
+const Score = styled.Text`
+  width: 40px;
+  flex-shrink: 0;
+  font-size: ${fontSizes.large}px;
+  font-weight: 500;
+  text-align: right;
+`;

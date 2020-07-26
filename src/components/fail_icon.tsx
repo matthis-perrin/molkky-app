@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {Player} from '../lib/stores';
+import {fontSizes} from '../lib/theme';
 
 interface FailIconProps {
   failDesign: string;
@@ -11,7 +12,7 @@ interface FailIconProps {
 
 export const FailIcon: React.FC<FailIconProps> = (props) => (
   <FailIconWrapper>
-    <Text style={props.disable ? {opacity: 0.3} : {}}>{props.failDesign}</Text>
+    <Icon style={props.disable ? {opacity: 0.3} : {}}>{props.failDesign}</Icon>
   </FailIconWrapper>
 );
 FailIcon.displayName = 'FailIcon';
@@ -20,6 +21,10 @@ const FailIconWrapper = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const Icon = styled.Text`
+  font-size: ${fontSizes.large}px;
 `;
 
 interface PlayerFailIconProps {
