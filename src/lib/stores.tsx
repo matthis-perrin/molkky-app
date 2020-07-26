@@ -1,9 +1,11 @@
+import {Alert} from 'react-native';
+
 import {clearPersistentDataStore, createDataStore, createPersistentDataStore} from './data_store';
 export interface Player {
   id: number;
   name: string;
   fail: number;
-  failDesign?: string;
+  failDesign: string;
   score: number;
 }
 
@@ -63,6 +65,7 @@ export const addPlayer = (game: Game): void => {
     name: 'Nouveau joueur',
     fail: 0,
     score: 0,
+    failDesign: '💣',
   };
   game.players = game.players.concat([newPlayer]);
   setGame(game);
@@ -73,29 +76,54 @@ export const delPlayer = (game: Game, player: Player): void => {
   setGame(game);
 };
 
-export const checkPerfect = (player: Player, game: Game): void => {
+const checkPerfectInternal = (player: Player, game: Game): Player[] => {
   if (player.score === 0) {
-    return;
+    return [];
   }
-  game.players.forEach((p) => {
+  for (const p of game.players) {
     if (p.id !== player.id && p.score === player.score) {
       p.score = Math.floor(p.score / 2);
-      checkPerfect(p, game);
+      return checkPerfectInternal(p, game).concat([p]);
     }
-  });
+  }
+  return [];
+};
+
+export const checkPerfect = (player: Player, game: Game): void => {
+  const playerPowned = checkPerfectInternal(player, game);
+  if (playerPowned.length > 0) {
+    Alert.alert(
+      'Powned !',
+      playerPowned
+        .reverse()
+        .map(
+          (p) =>
+            `${p.name} is powned (${
+              game.lastGame?.players.filter((lastp) => p.id === lastp.id)[0].score
+            } => ${p.score})`
+        )
+        .join('\n'),
+      [{text: 'Haha'}]
+    );
+  }
 };
 
 export const overtaking = (player: Player, game: Game): void => {
   player.score = 25;
   checkPerfect(player, game);
+  Alert.alert('Dépassement !', `${player.name} à dépassé la limite`, [{text: 'Haha'}]);
 };
 
 export const overFail = (player: Player, game: Game): void => {
   const objectiveScore = 50;
   if (player.score >= objectiveScore / 2) {
     player.score = objectiveScore / 2;
+    Alert.alert(`${player.failDesign}`, `${player.name} tombe à ${objectiveScore / 2}`, [
+      {text: 'Haha'},
+    ]);
   } else {
     player.score = 0;
+    Alert.alert(`${player.failDesign}`, `${player.name} tombe à 0`, [{text: 'Haha'}]);
   }
   player.fail = 0;
   checkPerfect(player, game);
@@ -123,6 +151,16 @@ function getNextPlayerId(game: Game): number {
   return -1;
 }
 
+export const isDone = (game: Game): boolean => {
+  const objectiveScore = 50;
+  for (const p of game.players) {
+    if (p.score === objectiveScore) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export const addPlay = (num: number, player: Player, game: Game): void => {
   const newGame = memorizeGame(game);
   const newPlayer = newGame.players.filter((p) => p.id === player.id)[0];
@@ -136,6 +174,10 @@ export const addPlay = (num: number, player: Player, game: Game): void => {
   const objectiveScore = 50;
   if (newPlayer.score > objectiveScore) {
     overtaking(newPlayer, newGame);
+  }
+  if (newPlayer.score === objectiveScore) {
+    Alert.alert(`Victoire`, `${player.name} à gagné`, [{text: 'Good job'}]);
+    newGame.lastPlay += ` et gagne la partie!`;
   }
   checkPerfect(newPlayer, newGame);
   newGame.currentPlayerId = getNextPlayerId(newGame);

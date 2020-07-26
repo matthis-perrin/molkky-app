@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import React from 'react';
-import {Button, Text, View} from 'react-native';
+import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
-import {addFail, addPlay, useGames} from '../lib/stores';
+import {addFail, addPlay, isDone, useGames} from '../lib/stores';
+import {PlayerFailIcon} from './fail_icon';
 
 interface PlayerViewProps {
   gameId: number;
@@ -21,22 +22,21 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   const onPressFail = (): void => {
     addFail(player, game);
   };
-  const fails: JSX.Element[] = [];
-  for (let i = 0; player.fail > i; i++) {
-    fails.push(<Text key={i}>X</Text>);
-  }
+  const maxFail = 3;
   return (
     <PlayerViewWrapper
       style={{
-        backgroundColor: props.isCurrentPlayer ? '#0000ff20' : 'transparent',
+        backgroundColor: props.isCurrentPlayer && !isDone(game) ? '#0000ff20' : 'transparent',
       }}
     >
       <Wrapper>
         <Name>{player.name}</Name>
-        <View>{fails}</View>
+        <PlayerFailIcon player={player} maxFail={maxFail} />
         <Score>{player.score}</Score>
       </Wrapper>
-      <KeyboardWrapper style={{display: props.isCurrentPlayer ? undefined : 'none'}}>
+      <KeyboardWrapper
+        style={{display: props.isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
+      >
         <Line>
           <ScoreButton title="1" onPress={() => onPressNumber(1)} />
           <ScoreButton title="2" onPress={() => onPressNumber(2)} />
@@ -54,7 +54,7 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
           <ScoreButton title="12" onPress={() => onPressNumber(12)} />
         </Line>
         <Line3>
-          <Button title={player.failDesign ?? '💣'} onPress={onPressFail}></Button>
+          <Button title={player.failDesign} onPress={onPressFail}></Button>
         </Line3>
       </KeyboardWrapper>
     </PlayerViewWrapper>

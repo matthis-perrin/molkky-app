@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Button} from 'react-native';
+import {Alert, Button} from 'react-native';
 import styled from 'styled-components/native';
 
 import {
@@ -24,9 +24,22 @@ export const Edit: React.FC<EditProps> = (props) => {
   const [games] = useGames();
   const game = games.filter((g) => g.id === props.gameId)[0];
   const onPressDelete = (): void => {
-    removeGame(game.id);
-    setApp({...app, currentPage: 'accueil'});
+    Alert.alert('Confirmation', 'Voulez-vous supprimer la partie?', [
+      {
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Supprimer',
+        onPress: () => {
+          setApp({...app, currentPage: 'accueil'});
+          removeGame(props.gameId);
+        },
+        style: 'destructive',
+      },
+    ]);
   };
+
   const onPressAddPlayer = (): void => {
     addPlayer(game);
   };
@@ -63,7 +76,7 @@ export const Edit: React.FC<EditProps> = (props) => {
       </TopBar>
       <Content>
         {sortedPlayer.map((p, index) => (
-          <PlayerWrapper>
+          <PlayerWrapper key={p.id}>
             <TextInputFailDesign
               maxLength={2}
               onChangeText={(text: string) => onFailDesignChange(text, p)}
