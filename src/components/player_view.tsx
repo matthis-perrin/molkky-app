@@ -87,8 +87,7 @@ const PlayerViewWrapper = styled.View`
   display: flex;
   flex-direction: column;
   padding: ${spacing}px;
-  margin: ${spacing}px;
-  margin-bottom: 0px;
+  margin-bottom: ${spacing}px;
   border-radius: ${borderRadius * 2}px;
 `;
 

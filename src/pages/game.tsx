@@ -35,32 +35,28 @@ export const GamePage: React.FC<GameProps> = (props) => {
           width={topBarButtonWidth}
         />
       </TopBar>
-      <Content>
-        <View>
-          <LastPlay>
-            <Text>{game.lastPlay}</Text>
-          </LastPlay>
-          <WrapperCancel>
-            <CustomButton
-              text="Annuler le dernier lancé"
-              icon="undo"
-              size="large"
-              onPress={() => loadingPreviusPlay(game)}
-              hidden={game.lastGame === undefined}
-            />
-          </WrapperCancel>
-        </View>
-        <ScrollView>
-          {game.players.map((p) => (
-            <PlayerView
-              key={p.id}
-              gameId={game.id}
-              playerId={p.id}
-              isCurrentPlayer={p.id === game.currentPlayerId}
-            ></PlayerView>
-          ))}
-        </ScrollView>
-      </Content>
+      <LastPlay>
+        <Text>{game.lastPlay}</Text>
+      </LastPlay>
+      <WrapperCancel>
+        <CustomButton
+          text="Annuler le dernier lancé"
+          icon="undo"
+          size="large"
+          onPress={() => loadingPreviusPlay(game)}
+          hidden={game.lastGame === undefined}
+        />
+      </WrapperCancel>
+      <PlayerScrollView>
+        {game.players.map((p) => (
+          <PlayerView
+            key={p.id}
+            gameId={game.id}
+            playerId={p.id}
+            isCurrentPlayer={p.id === game.currentPlayerId}
+          ></PlayerView>
+        ))}
+      </PlayerScrollView>
     </Wrapper>
   );
 };
@@ -81,12 +77,6 @@ const TopBar = styled.View`
   padding: ${spacing / 2}px;
 `;
 
-const Content = styled.View`
-  flex-direction: column;
-  background-color: red;
-  border: solid 2px black;
-`;
-
 const Titre = styled.Text`
   font-size: ${fontSizes.medium}px;
   flex-grow: 1;
@@ -99,6 +89,11 @@ const LastPlay = styled.View`
   background-color: #ccc;
   margin-top: ${spacing}px;
   padding: ${spacing}px;
+`;
+
+const PlayerScrollView = styled.ScrollView`
+  margin: ${spacing}px;
+  margin-bottom: 0;
 `;
 
 const WrapperCancel = styled.View`
