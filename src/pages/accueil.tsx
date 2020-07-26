@@ -2,9 +2,9 @@ import React, {Fragment} from 'react';
 import {ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 
-import {CustomButtonText} from '../components/custom_buttons';
+import {CustomButton} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
-import {clearPersistentDataStore} from '../lib/data_store';
+// import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, useGames} from '../lib/stores';
 
 export const Accueil: React.FC = () => {
@@ -18,22 +18,17 @@ export const Accueil: React.FC = () => {
         <Title>"MOLKKY"</Title>
       </TopBar>
       <Content>
-        <CustomButtonText
+        {/* <CustomButtonText
           text="Reset Data"
           onPress={() => clearPersistentDataStore('games')}
-          fontSize="small"
-        ></CustomButtonText>
-        <CustomButtonText
-          text="Reset Data"
-          onPress={() => clearPersistentDataStore('games')}
-          fontSize="medium"
-        ></CustomButtonText>
-        <CustomButtonText
-          text="Reset Data"
-          onPress={() => clearPersistentDataStore('games')}
-          fontSize="large"
-        ></CustomButtonText>
-        <NewGameButton title="Nouvelle partie" onPress={onPressNewGame}></NewGameButton>
+          size="small"
+        ></CustomButtonText> */}
+        <NewGameButton
+          text="Nouvelle partie"
+          icon="plus"
+          size="large"
+          onPress={onPressNewGame}
+        ></NewGameButton>
         <ScrollView>
           {games.map((g) => (
             <PreviewGame key={g.id} gameId={g.id} />
@@ -53,4 +48,4 @@ const Content = styled.View`
   display: flex;
   flex-direction: column;
 `;
-const NewGameButton = styled.Button``;
+const NewGameButton = styled(CustomButton)``;

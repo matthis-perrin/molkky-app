@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Alert, Button} from 'react-native';
 import styled from 'styled-components/native';
 
+import {CustomButton} from '../components/custom_buttons';
 import {
   addPlayer,
   delPlayer,
@@ -14,6 +15,7 @@ import {
   useApp,
   useGames,
 } from '../lib/stores';
+import {fontSizes, topBarButtonWidth} from '../lib/theme';
 
 interface EditProps {
   gameId: number;
@@ -70,9 +72,20 @@ export const Edit: React.FC<EditProps> = (props) => {
   return (
     <Wrapper>
       <TopBar>
-        <Button title="Supprimer" onPress={onPressDelete}></Button>
-        <Titre>{`Nouvelle partie (id: ${game.id})`}</Titre>
-        <Button title="Jouer!" onPress={onPressPlay} disabled={game.players.length === 0}></Button>
+        <CustomButton
+          icon="trash-can-outline"
+          text="Supprimer"
+          onPress={onPressDelete}
+          iconSizeRatio={1.2}
+          width={topBarButtonWidth}
+        ></CustomButton>
+        <Titre>{`Edition`}</Titre>
+        <CustomButton
+          text="Jouer!"
+          onPress={onPressPlay}
+          disabled={game.players.length === 0}
+          width={topBarButtonWidth}
+        ></CustomButton>
       </TopBar>
       <Content>
         {sortedPlayer.map((p, index) => (
@@ -86,15 +99,26 @@ export const Edit: React.FC<EditProps> = (props) => {
             <TextInputPlayer onChangeText={(text: string) => onTextChange(text, p)}>
               {p.name}
             </TextInputPlayer>
-            <Button title="Supprimer joueur" onPress={() => onPressDeletePlayer(p)}></Button>
+            <CustomButton
+              icon="backspace-outline"
+              onPress={() => onPressDeletePlayer(p)}
+            ></CustomButton>
             {index === game.players.length - 1 ? (
               <Fragment />
             ) : (
-              <Button title="Ordonner" onPress={() => onPressSwap(p)}></Button>
+              <CustomButton
+                icon="swap-vertical-bold"
+                onPress={() => onPressSwap(p)}
+                iconSizeRatio={1.2}
+              ></CustomButton>
             )}
           </PlayerWrapper>
         ))}
-        <Button title="Ajouter joueur" onPress={onPressAddPlayer}></Button>
+        <CustomButton
+          icon="account-plus"
+          text="Ajouter joueur"
+          onPress={onPressAddPlayer}
+        ></CustomButton>
       </Content>
     </Wrapper>
   );
@@ -107,6 +131,8 @@ const Wrapper = styled.View`
 `;
 
 const TopBar = styled.View`
+  display: flex;
+  align-items: center;
   flex-direction: row;
 `;
 
@@ -130,6 +156,7 @@ const TextInputFailDesign = styled.TextInput`
 `;
 
 const Titre = styled.Text`
+  font-size: ${fontSizes.medium}px;
   flex-grow: 1;
   text-align: center;
 `;

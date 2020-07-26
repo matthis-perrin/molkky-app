@@ -2,8 +2,10 @@ import React, {Fragment} from 'react';
 import {Button, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
+import {CustomButton} from '../components/custom_buttons';
 import {PlayerView} from '../components/player_view';
 import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
+import {fontSizes, topBarButtonWidth} from '../lib/theme';
 
 interface GameProps {
   gameId: number;
@@ -19,13 +21,29 @@ export const GamePage: React.FC<GameProps> = (props) => {
   return (
     <Wrapper>
       <TopBar>
-        <Button title="Accueil" onPress={() => setApp({...app, currentPage: 'accueil'})}></Button>
-        <Titre>{`Partie ${game.id} en cours`}</Titre>
-        <Button title="Edition" onPress={() => setApp({...app, currentPage: 'editGame'})}></Button>
+        <CustomButton
+          text="Accueil"
+          icon="home"
+          onPress={() => setApp({...app, currentPage: 'accueil'})}
+          width={topBarButtonWidth}
+        ></CustomButton>
+        <Titre>{`Partie`}</Titre>
+        <CustomButton
+          text="Edition"
+          icon="pencil-outline"
+          onPress={() => setApp({...app, currentPage: 'editGame'})}
+          width={topBarButtonWidth}
+        ></CustomButton>
       </TopBar>
       <Content>
         <View>
-          <Button title="Précédent" onPress={() => loadingPreviusPlay(game)}></Button>
+          <CustomButton
+            text="Annuler le dernier lancé"
+            icon="undo"
+            size="large"
+            onPress={() => loadingPreviusPlay(game)}
+            hidden={game.lastGame === undefined}
+          ></CustomButton>
           <LastPlay>
             <Text>{game.lastPlay}</Text>
           </LastPlay>
@@ -50,6 +68,8 @@ const Wrapper = styled.View`
 `;
 
 const TopBar = styled.View`
+  display: flex;
+  align-items: center;
   flex-direction: row;
 `;
 
@@ -58,6 +78,7 @@ const Content = styled.View`
 `;
 
 const Titre = styled.Text`
+  font-size: ${fontSizes.medium}px;
   flex-grow: 1;
   text-align: center;
 `;

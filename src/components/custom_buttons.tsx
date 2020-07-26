@@ -1,35 +1,75 @@
-import {Feather} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React from 'react';
 import {TouchableHighlight} from 'react-native';
 import styled from 'styled-components/native';
 
-import {black, borderRadius, charcoal, fontSize, white} from '../lib/theme';
+import {black, borderRadius, buttonHeight, charcoal, fontSizes, white} from '../lib/theme';
 
-interface FailIconProps {
-  text: string;
+interface CustomButtonProps {
+  text?: string;
+  width?: number;
   onPress: () => void;
-  fontSize?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
   icon?: string;
+  disabled?: boolean;
+  iconSizeRatio?: number;
+  hidden?: boolean;
 }
 
-export const CustomButtonText: React.FC<FailIconProps> = (props) => (
-  <TouchableHighlight onPress={props.onPress} underlayColor={black}>
-    <ButtonContent>
-      <Feather name="alert-circle" size={fontSize[props.fontSize ?? 'medium']} color={white} />
-      <ButtonText style={{fontSize: fontSize[props.fontSize ?? 'medium']}}>{props.text}</ButtonText>
-    </ButtonContent>
-  </TouchableHighlight>
-);
+export const CustomButton: React.FC<CustomButtonProps> = (props) => {
+  const fontSize = fontSizes[props.size ?? 'medium'];
+  const height = buttonHeight[props.size ?? 'medium'];
+  const width = props.width ?? (props.text !== undefined ? '100%' : height);
+  const ratioIconSize = props.iconSizeRatio ?? 1;
+  const ratioSeparatorWidth = 0.25;
+  const buttonContent: JSX.Element[] = [];
+  const opacityDisabled = 0.25;
+  const opacity = props.disabled ? opacityDisabled : 1;
+  if (props.icon !== undefined) {
+    buttonContent.push(
+      <MaterialCommunityIcons
+        key="icon"
+        name={props.icon}
+        size={fontSize * ratioIconSize}
+        color={white}
+      />
+    );
+    if (props.text !== undefined) {
+      buttonContent.push(
+        <Separator key="separator" style={{width: fontSize * ratioSeparatorWidth}}></Separator>
+      );
+    }
+  }
+  if (props.text !== undefined) {
+    buttonContent.push(
+      <ButtonText key="text" style={{fontSize}}>
+        {props.text}
+      </ButtonText>
+    );
+  }
+  return (
+    <TouchableHighlight
+      onPress={props.onPress}
+      underlayColor={black}
+      disabled={props.disabled}
+      style={{opacity, display: props.hidden ? 'none' : undefined}}
+    >
+      <ButtonContent style={{height, width}}>{buttonContent}</ButtonContent>
+    </TouchableHighlight>
+  );
+};
+CustomButton.displayName = 'CustomButton';
 
 const ButtonContent = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
   border-radius: ${borderRadius}px;
   background-color: ${charcoal};
 `;
+
+const Separator = styled.View``;
 
 const ButtonText = styled.Text`
   color: ${white};
