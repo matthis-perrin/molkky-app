@@ -33,7 +33,9 @@ interface PlayerFailIconProps {
 export const PlayerFailIcon: React.FC<PlayerFailIconProps> = (props) => {
   const fails: JSX.Element[] = [];
   for (let i = 0; i < props.maxFail; i++) {
-    fails.push(<FailIcon failDesign={props.player.failDesign} disable={i >= props.player.fail} />);
+    fails.push(
+      <FailIcon key={i} failDesign={props.player.failDesign} disable={i >= props.player.fail} />
+    );
   }
   return <PlayerFailIconWrapper>{fails}</PlayerFailIconWrapper>;
 };
