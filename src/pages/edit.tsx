@@ -76,7 +76,7 @@ export const Edit: React.FC<EditProps> = (props) => {
     movePlayerDown(player, game);
   };
   const onFailDesignChange = (text: string, player: Player): void => {
-    setPlayerFailDesign(text, player, game);
+    setPlayerFailDesign([...text].slice(-1)[0] ?? '💣', player, game);
     Keyboard.dismiss();
   };
   return (
@@ -103,6 +103,7 @@ export const Edit: React.FC<EditProps> = (props) => {
             <PlayerWrapper>
               <TextInputFailDesign
                 caretHidden
+                selectTextOnFocus
                 onChangeText={(text: string) => onFailDesignChange(text, p)}
                 defaultValue={p.failDesign}
               />
