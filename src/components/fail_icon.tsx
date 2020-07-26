@@ -32,8 +32,12 @@ export const PlayerFailIcon: React.FC<PlayerFailIconProps> = (props) => {
   const fails: JSX.Element[] = [];
   for (let i = 0; i < props.maxFail; i++) {
     fails.push(
-      <View style={{width: i === 0 ? 0 : spacing}}></View>,
-      <FailIcon key={i} failDesign={props.player.failDesign} disable={i >= props.player.fail} />
+      <View key={`spacing-${i}`} style={{width: i === 0 ? 0 : spacing}}></View>,
+      <FailIcon
+        key={`icon-${i}`}
+        failDesign={props.player.failDesign}
+        disable={i >= props.player.fail}
+      />
     );
   }
   return <PlayerFailIconWrapper>{fails}</PlayerFailIconWrapper>;
