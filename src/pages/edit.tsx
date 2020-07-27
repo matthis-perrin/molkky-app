@@ -18,12 +18,12 @@ import {
 import {
   borderRadius,
   buttonHeight,
-  darkGray,
   fontSizes,
-  gray,
+  inputBackgroundColor,
+  pastilleBackgroundColor,
   spacing,
+  topBarBackgroundColor,
   topBarButtonWidth,
-  white,
 } from '../lib/theme';
 
 interface EditProps {
@@ -153,7 +153,7 @@ const TopBar = styled.View`
   align-items: center;
   flex-direction: row;
   flex-shrink: 0;
-  background-color: ${darkGray};
+  background-color: ${topBarBackgroundColor};
   padding: ${spacing / 2}px;
   margin-bottom: ${spacing}px;
 `;
@@ -165,13 +165,13 @@ const PlayerWrapper = styled.View`
   padding: ${spacing}px;
   margin: 0px ${spacing}px;
   border-radius: ${borderRadius * 2}px;
-  background-color: ${gray};
+  background-color: ${pastilleBackgroundColor};
 `;
 
 const TextInputPlayer = styled.TextInput`
   flex-grow: 1;
   margin: 0 ${spacing}px;
-  background-color: ${white};
+  background-color: ${inputBackgroundColor};
   font-size: ${fontSizes.medium}px;
   height: ${buttonHeight.medium}px;
   border-radius: ${borderRadius}px;
@@ -181,7 +181,7 @@ const TextInputPlayer = styled.TextInput`
 const TextInputFailDesign = styled.TextInput`
   text-align: center;
   flex-shrink: 0;
-  background-color: ${white};
+  background-color: ${inputBackgroundColor};
   font-size: ${fontSizes.medium}px;
   height: ${buttonHeight.medium}px;
   width: ${buttonHeight.medium}px;

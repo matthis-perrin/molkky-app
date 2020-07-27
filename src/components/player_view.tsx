@@ -5,12 +5,11 @@ import styled from 'styled-components/native';
 
 import {addFail, addPlay, isDone, useGames} from '../lib/stores';
 import {
-  black,
+  borderColor,
   borderRadius,
-  charcoal,
-  darkGray,
   fontSizes,
-  gray,
+  pastilleBackgroundColor,
+  pastilleColor,
   scoreButtonWidth,
   spacing,
 } from '../lib/theme';
@@ -38,14 +37,14 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   return (
     <PlayerViewWrapper
       style={{
-        backgroundColor: props.isCurrentPlayer && !isDone(game) ? darkGray : gray,
+        opacity: props.isCurrentPlayer && !isDone(game) ? 1 : 0.8,
       }}
     >
       <Wrapper>
         <MaterialCommunityIcons
           name={'play'}
           size={fontSizes.medium}
-          color={black}
+          color={pastilleColor}
           style={{display: props.isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
         />
         <Name numberOfLines={1} ellipsizeMode="tail">
@@ -89,6 +88,7 @@ const PlayerViewWrapper = styled.View`
   padding: ${spacing}px;
   margin-bottom: ${spacing}px;
   border-radius: ${borderRadius * 2}px;
+  background-color: ${pastilleBackgroundColor};
 `;
 
 const Wrapper = styled.View`
@@ -118,7 +118,7 @@ const KeyboardWrapper = styled.View`
 
 const BorderSeparator = styled.View`
   height: 1px;
-  background-color: ${charcoal};
+  background-color: ${borderColor};
   margin-top: ${spacing}px;
   margin-bottom: ${spacing}px;
 `;

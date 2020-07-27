@@ -5,7 +5,13 @@ import styled from 'styled-components/native';
 import {CustomButton} from '../components/custom_buttons';
 import {PlayerView} from '../components/player_view';
 import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
-import {darkGray, fontSizes, spacing, topBarButtonWidth} from '../lib/theme';
+import {
+  bannerBackgroundColor,
+  fontSizes,
+  spacing,
+  topBarBackgroundColor,
+  topBarButtonWidth,
+} from '../lib/theme';
 
 interface GameProps {
   gameId: number;
@@ -73,7 +79,7 @@ const TopBar = styled.View`
   align-items: center;
   flex-direction: row;
   flex-shrink: 0;
-  background-color: ${darkGray};
+  background-color: ${topBarBackgroundColor};
   padding: ${spacing / 2}px;
 `;
 
@@ -86,7 +92,7 @@ const Titre = styled.Text`
 const LastPlay = styled.View`
   display: flex;
   align-items: center;
-  background-color: #ccc;
+  background-color: ${bannerBackgroundColor};
   margin-top: ${spacing}px;
   padding: ${spacing}px;
 `;

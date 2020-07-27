@@ -1,9 +1,15 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React from 'react';
-import {TouchableHighlight} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 
-import {black, borderRadius, buttonHeight, charcoal, fontSizes, white} from '../lib/theme';
+import {
+  borderRadius,
+  buttonBackgroundColor,
+  buttonColor,
+  buttonHeight,
+  fontSizes,
+} from '../lib/theme';
 
 interface CustomButtonProps {
   text?: string;
@@ -31,7 +37,7 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
         key="icon"
         name={props.icon}
         size={fontSize * ratioIconSize}
-        color={white}
+        color={buttonColor}
       />
     );
     if (props.text !== undefined) {
@@ -48,14 +54,14 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
     );
   }
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       onPress={props.onPress}
-      underlayColor={black}
+      activeOpacity={0.7}
       disabled={props.disabled}
       style={{opacity, display: props.hidden ? 'none' : undefined}}
     >
       <ButtonContent style={{height, width}}>{buttonContent}</ButtonContent>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 CustomButton.displayName = 'CustomButton';
@@ -66,11 +72,11 @@ const ButtonContent = styled.View`
   align-items: center;
   justify-content: center;
   border-radius: ${borderRadius}px;
-  background-color: ${charcoal};
+  background-color: ${buttonBackgroundColor};
 `;
 
 const Separator = styled.View``;
 
 const ButtonText = styled.Text`
-  color: ${white};
+  color: ${buttonColor};
 `;

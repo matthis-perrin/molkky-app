@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 
 // import {clearPersistentDataStore} from './lib/data_store';
 import {useApp} from './lib/stores';
+import {appBackgroundColor} from './lib/theme';
 import {Accueil} from './pages/accueil';
 import {Edit} from './pages/edit';
 import {GamePage} from './pages/game';
@@ -29,5 +30,7 @@ export const App: React.FC = () => {
 };
 App.displayName = 'App';
 
-const StyledSafeArea = styled.SafeAreaView``;
+const StyledSafeArea = styled.SafeAreaView`
+  background-color: ${appBackgroundColor};
+`;
 const AppContainer = styled.View``;

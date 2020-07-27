@@ -1,11 +1,16 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React, {Fragment} from 'react';
-import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
 import {formatDate} from '../lib/format';
 import {getApp, isDone, Player, setApp, useGames} from '../lib/stores';
-import {black, borderRadius, fontSizes, gray, spacing, white} from '../lib/theme';
+import {
+  borderRadius,
+  fontSizes,
+  pastilleBackgroundColor,
+  pastilleColor,
+  spacing,
+} from '../lib/theme';
 import {PlayerFailIcon} from './fail_icon';
 
 interface PreviewGameProps {
@@ -33,7 +38,7 @@ export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
             key="icon"
             name={isDone(game) ? 'check' : 'sync'}
             size={fontSizes.large}
-            color={black}
+            color={pastilleColor}
           />
         </WrapperDate>
         {sortedPlayer.map((p) => (
@@ -54,7 +59,7 @@ PreviewGame.displayName = 'PreviewGame';
 const PreviewGameWrapper = styled.TouchableOpacity`
   display: flex;
   padding: ${spacing}px;
-  background-color: ${gray};
+  background-color: ${pastilleBackgroundColor};
   margin-bottom: ${spacing}px;
   border-radius: ${borderRadius * 2}px;
 `;

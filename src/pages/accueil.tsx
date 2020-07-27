@@ -6,7 +6,7 @@ import {CustomButton} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
 // import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, isDone, useGames} from '../lib/stores';
-import {darkGray, fontSizes, spacing} from '../lib/theme';
+import {fontSizes, spacing, topBarBackgroundColor} from '../lib/theme';
 
 export const Accueil: React.FC = () => {
   const [games] = useGames();
@@ -49,7 +49,7 @@ const TopBar = styled.View`
   align-items: center;
   flex-direction: row;
   flex-shrink: 0;
-  background-color: ${darkGray};
+  background-color: ${topBarBackgroundColor};
   padding: ${spacing / 2}px;
 `;
 const Title = styled.Text`
