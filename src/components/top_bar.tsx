@@ -36,6 +36,7 @@ const TopBarWrapper = styled.View`
   flex-shrink: 0;
   background-color: ${topBarBackgroundColor};
   padding: ${spacing}px;
+  margin-bottom: ${spacing}px;
 `;
 
 const Left = styled.View`

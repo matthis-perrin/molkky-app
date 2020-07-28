@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react';
-import {Alert, Keyboard, ScrollView, View} from 'react-native';
+import {Alert, Keyboard} from 'react-native';
 import styled from 'styled-components/native';
 
+import {BottomBar} from '../components/bottom_bar';
 import {CustomButton} from '../components/custom_buttons';
 import {TopBar} from '../components/top_bar';
 import {
@@ -23,7 +24,6 @@ import {
   inputBackgroundColor,
   pastilleBackgroundColor,
   spacing,
-  topBarBackgroundColor,
   topBarButtonWidth,
 } from '../lib/theme';
 
@@ -98,23 +98,23 @@ export const Edit: React.FC<EditProps> = (props) => {
         />
         <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
       </PlayerWrapper>,
-      <WrapperSwap key={`swap-${index}`}>
-        {index === game.players.length - 1 ? (
-          <Fragment />
-        ) : (
+
+      index === game.players.length - 1 ? (
+        <Fragment />
+      ) : (
+        <WrapperSwap key={`swap-${index}`}>
           <CustomButton
             icon="swap-vertical-bold"
             onPress={() => onPressSwap(p)}
             iconSizeRatio={1.2}
           />
-        )}
-      </WrapperSwap>
+        </WrapperSwap>
+      )
     )
   );
-  scrollViewContent.push(<View key="spacing" style={{height: spacing}}></View>);
 
   return (
-    <Wrapper>
+    <Fragment>
       <TopBar
         left={
           <CustomButton
@@ -135,13 +135,13 @@ export const Edit: React.FC<EditProps> = (props) => {
           />
         }
       />
-      <ScrollView
+      <StyledScrollView
         keyboardShouldPersistTaps="handled"
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
         {scrollViewContent}
-      </ScrollView>
+      </StyledScrollView>
       <WrapperAdd>
         <CustomButton
           icon="account-plus"
@@ -150,16 +150,11 @@ export const Edit: React.FC<EditProps> = (props) => {
           size="large"
         />
       </WrapperAdd>
-    </Wrapper>
+      <BottomBar />
+    </Fragment>
   );
 };
 Edit.displayName = 'Edit';
-
-const Wrapper = styled.View`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
 
 const PlayerWrapper = styled.View`
   display: flex;
@@ -173,7 +168,6 @@ const PlayerWrapper = styled.View`
 
 const TextInputPlayer = styled.TextInput`
   flex-grow: 1;
-  margin: 0 ${spacing}px;
   background-color: ${inputBackgroundColor};
   font-size: ${fontSizes.medium}px;
   height: ${buttonHeight.medium}px;
@@ -197,9 +191,14 @@ const Titre = styled.Text`
   text-align: center;
 `;
 
+const StyledScrollView = styled.ScrollView`
+  flex-grow: 1;
+`;
+
 const WrapperAdd = styled.View`
   margin: ${spacing}px;
-  margin-bottom: ${2 * spacing}px;
+  margin-bottom: 0;
+  background-color: transparent;
 `;
 
 const WrapperSwap = styled.View`

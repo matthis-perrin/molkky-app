@@ -4,10 +4,11 @@ import styled from 'styled-components/native';
 import {BottomBar} from '../components/bottom_bar';
 import {CustomButton} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
+import {SpaceJoin} from '../components/space_join';
 import {TopBar} from '../components/top_bar';
 // import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, isDone, useGames} from '../lib/stores';
-import {buttonHeight, elevations, fontSizes, spacing, topBarBackgroundColor} from '../lib/theme';
+import {fontSizes, spacing} from '../lib/theme';
 
 export const Accueil: React.FC = () => {
   const [games] = useGames();
@@ -29,18 +30,11 @@ export const Accueil: React.FC = () => {
         <CustomButton text="Nouvelle partie" icon="plus" size="large" onPress={onPressNewGame} />
       </WrapperAdd>
       <StyledScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-        {gameInProgress.map((g) => (
-          <Fragment key={g.id}>
+        <SpaceJoin>
+          {gameInProgress.concat(gameDone).map((g) => (
             <PreviewGame gameId={g.id} />
-            <GameSpacing />
-          </Fragment>
-        ))}
-        {gameDone.map((g, i) => (
-          <Fragment key={g.id}>
-            <PreviewGame gameId={g.id} />
-            {i < gameDone.length ? <GameSpacing /> : <Fragment />}
-          </Fragment>
-        ))}
+          ))}
+        </SpaceJoin>
         <BottomBar />
       </StyledScrollView>
     </Fragment>
@@ -54,15 +48,12 @@ const Title = styled.Text`
 `;
 
 const WrapperAdd = styled.View`
-  margin: ${spacing}px;
+  margin: 0 ${spacing}px;
   flex-shrink: 0;
 `;
 
 const StyledScrollView = styled.ScrollView`
   flex-grow: 1;
-  margin: 0 ${spacing}px;
-`;
-
-const GameSpacing = styled.View`
-  height: ${spacing}px;
+  margin: ${spacing}px;
+  margin-bottom: 0;
 `;

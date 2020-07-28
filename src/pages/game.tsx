@@ -2,17 +2,13 @@ import React, {Fragment} from 'react';
 import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
+import {BottomBar} from '../components/bottom_bar';
 import {CustomButton} from '../components/custom_buttons';
 import {PlayerView} from '../components/player_view';
+import {SpaceJoin} from '../components/space_join';
 import {TopBar} from '../components/top_bar';
 import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
-import {
-  bannerBackgroundColor,
-  fontSizes,
-  spacing,
-  topBarBackgroundColor,
-  topBarButtonWidth,
-} from '../lib/theme';
+import {bannerBackgroundColor, fontSizes, spacing, topBarButtonWidth} from '../lib/theme';
 
 interface GameProps {
   gameId: number;
@@ -26,7 +22,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
     return <Fragment />;
   }
   return (
-    <Wrapper>
+    <Fragment>
       <TopBar
         left={
           <CustomButton
@@ -59,25 +55,21 @@ export const GamePage: React.FC<GameProps> = (props) => {
         />
       </WrapperCancel>
       <PlayerScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-        {game.players.map((p) => (
-          <PlayerView
-            key={p.id}
-            gameId={game.id}
-            playerId={p.id}
-            isCurrentPlayer={p.id === game.currentPlayerId}
-          ></PlayerView>
-        ))}
+        <SpaceJoin>
+          {game.players.map((p) => (
+            <PlayerView
+              gameId={game.id}
+              playerId={p.id}
+              isCurrentPlayer={p.id === game.currentPlayerId}
+            />
+          ))}
+        </SpaceJoin>
+        <BottomBar />
       </PlayerScrollView>
-    </Wrapper>
+    </Fragment>
   );
 };
 GamePage.displayName = 'Game';
-
-const Wrapper = styled.View`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
 
 const Titre = styled.Text`
   font-size: ${fontSizes.medium}px;

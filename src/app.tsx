@@ -36,7 +36,6 @@ const AppWithProvider: React.FC = () => {
   return (
     <AppWrapper>
       <AppContainer>{content}</AppContainer>
-      <View style={{height: insets.bottom}} />
     </AppWrapper>
   );
 };
