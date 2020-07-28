@@ -58,6 +58,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
         <SpaceJoin>
           {game.players.map((p) => (
             <PlayerView
+              key={p.id}
               gameId={game.id}
               playerId={p.id}
               isCurrentPlayer={p.id === game.currentPlayerId}

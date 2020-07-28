@@ -100,9 +100,9 @@ export const Edit: React.FC<EditProps> = (props) => {
       </PlayerWrapper>,
 
       index === game.players.length - 1 ? (
-        <Fragment />
+        <Fragment key={index} />
       ) : (
-        <WrapperSwap key={`swap-${index}`}>
+        <WrapperSwap key={index}>
           <CustomButton
             icon="swap-vertical-bold"
             onPress={() => onPressSwap(p)}

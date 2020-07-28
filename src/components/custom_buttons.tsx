@@ -8,6 +8,7 @@ import {
   buttonBackgroundColor,
   buttonColor,
   buttonHeight,
+  elevations,
   fontSizes,
 } from '../lib/theme';
 
@@ -58,7 +59,7 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
       onPress={props.onPress}
       activeOpacity={0.7}
       disabled={props.disabled}
-      style={{opacity, display: props.hidden ? 'none' : undefined}}
+      style={{...elevations.medium, opacity, display: props.hidden ? 'none' : undefined}}
     >
       <ButtonContent style={{height, width}}>{buttonContent}</ButtonContent>
     </TouchableOpacity>

@@ -32,7 +32,7 @@ export const Accueil: React.FC = () => {
       <StyledScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         <SpaceJoin>
           {gameInProgress.concat(gameDone).map((g) => (
-            <PreviewGame gameId={g.id} />
+            <PreviewGame key={g.id} gameId={g.id} />
           ))}
         </SpaceJoin>
         <BottomBar />
