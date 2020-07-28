@@ -79,6 +79,39 @@ export const Edit: React.FC<EditProps> = (props) => {
     setPlayerFailDesign([...text].slice(-1)[0] ?? '💣', player, game);
     Keyboard.dismiss();
   };
+
+  const scrollViewContent: JSX.Element[] = [];
+  sortedPlayer.forEach((p, index) =>
+    scrollViewContent.push(
+      <PlayerWrapper key={p.id}>
+        <TextInputFailDesign
+          caretHidden
+          selectTextOnFocus
+          onChangeText={(text: string) => onFailDesignChange(text, p)}
+          defaultValue={p.failDesign}
+        />
+        <TextInputPlayer
+          selectTextOnFocus
+          onChangeText={(text: string) => onTextChange(text, p)}
+          defaultValue={p.name}
+        />
+        <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
+      </PlayerWrapper>,
+      <WrapperSwap key={`swap-${index}`}>
+        {index === game.players.length - 1 ? (
+          <Fragment />
+        ) : (
+          <CustomButton
+            icon="swap-vertical-bold"
+            onPress={() => onPressSwap(p)}
+            iconSizeRatio={1.2}
+          />
+        )}
+      </WrapperSwap>
+    )
+  );
+  scrollViewContent.push(<View key="spacing" style={{height: spacing}}></View>);
+
   return (
     <Wrapper>
       <TopBar>
@@ -97,38 +130,7 @@ export const Edit: React.FC<EditProps> = (props) => {
           width={topBarButtonWidth}
         />
       </TopBar>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        {sortedPlayer.map((p, index) => (
-          <Fragment key={p.id}>
-            <PlayerWrapper>
-              <TextInputFailDesign
-                caretHidden
-                selectTextOnFocus
-                onChangeText={(text: string) => onFailDesignChange(text, p)}
-                defaultValue={p.failDesign}
-              />
-              <TextInputPlayer
-                selectTextOnFocus
-                onChangeText={(text: string) => onTextChange(text, p)}
-                defaultValue={p.name}
-              />
-              <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
-            </PlayerWrapper>
-            <WrapperSwap>
-              {index === game.players.length - 1 ? (
-                <Fragment />
-              ) : (
-                <CustomButton
-                  icon="swap-vertical-bold"
-                  onPress={() => onPressSwap(p)}
-                  iconSizeRatio={1.2}
-                />
-              )}
-            </WrapperSwap>
-          </Fragment>
-        ))}
-        <View style={{height: spacing}}></View>
-      </ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">{scrollViewContent}</ScrollView>
       <WrapperAdd>
         <CustomButton
           icon="account-plus"

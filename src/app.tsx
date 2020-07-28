@@ -31,6 +31,9 @@ export const App: React.FC = () => {
 App.displayName = 'App';
 
 const StyledSafeArea = styled.SafeAreaView`
+  height: 100%;
   background-color: ${appBackgroundColor};
 `;
-const AppContainer = styled.View``;
+const AppContainer = styled.View`
+  height: 100%;
+`;

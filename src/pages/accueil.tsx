@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-import {ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 
 import {CustomButton} from '../components/custom_buttons';
@@ -21,24 +20,22 @@ export const Accueil: React.FC = () => {
       <TopBar>
         <Title>MOLKKY</Title>
       </TopBar>
-      <Content>
-        {/* <CustomButtonText
+      {/* <CustomButtonText
           text="Reset Data"
           onPress={() => clearPersistentDataStore('games')}
           size="small"
         ></CustomButtonText> */}
-        <WrapperAdd>
-          <CustomButton text="Nouvelle partie" icon="plus" size="large" onPress={onPressNewGame} />
-        </WrapperAdd>
-        <ScrollView>
-          {gameInProgress.map((g) => (
-            <PreviewGame key={g.id} gameId={g.id} />
-          ))}
-          {gameDone.map((g) => (
-            <PreviewGame key={g.id} gameId={g.id} />
-          ))}
-        </ScrollView>
-      </Content>
+      <WrapperAdd>
+        <CustomButton text="Nouvelle partie" icon="plus" size="large" onPress={onPressNewGame} />
+      </WrapperAdd>
+      <StyledScrollView>
+        {gameInProgress.map((g) => (
+          <PreviewGame key={g.id} gameId={g.id} />
+        ))}
+        {gameDone.map((g) => (
+          <PreviewGame key={g.id} gameId={g.id} />
+        ))}
+      </StyledScrollView>
     </Fragment>
   );
 };
@@ -57,13 +54,13 @@ const Title = styled.Text`
   flex-grow: 1;
   text-align: center;
 `;
-const Content = styled.View`
-  display: flex;
-  flex-direction: column;
-  margin: ${spacing}px;
-  margin-bottom: 0px;
-`;
 
 const WrapperAdd = styled.View`
-  margin-bottom: ${spacing}px;
+  margin: ${spacing}px;
+  flex-shrink: 0;
+`;
+
+const StyledScrollView = styled.ScrollView`
+  flex-grow: 1;
+  margin: 0 ${spacing}px;
 `;
