@@ -6,6 +6,7 @@ import {formatDate} from '../lib/format';
 import {getApp, isDone, Player, setApp, useGames} from '../lib/stores';
 import {
   borderRadius,
+  elevations,
   fontSizes,
   pastilleBackgroundColor,
   pastilleColor,
@@ -30,7 +31,7 @@ export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const isWinner = (player: Player): boolean => player.score === 50;
   return (
-    <PreviewGameWrapper activeOpacity={0.7} onPress={onPressGame}>
+    <PreviewGameWrapper style={elevations.small} activeOpacity={0.7} onPress={onPressGame}>
       <Wrapper>
         <WrapperDate>
           <CreationTime>{formatDate(game.creationTime)}</CreationTime>
@@ -60,7 +61,6 @@ const PreviewGameWrapper = styled.TouchableOpacity`
   display: flex;
   padding: ${spacing}px;
   background-color: ${pastilleBackgroundColor};
-  margin-bottom: ${spacing}px;
   border-radius: ${borderRadius * 2}px;
 `;
 

@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 
 import {CustomButton} from '../components/custom_buttons';
 import {PlayerView} from '../components/player_view';
+import {TopBar} from '../components/top_bar';
 import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
 import {
   bannerBackgroundColor,
@@ -26,21 +27,25 @@ export const GamePage: React.FC<GameProps> = (props) => {
   }
   return (
     <Wrapper>
-      <TopBar>
-        <CustomButton
-          text="Accueil"
-          icon="home"
-          onPress={() => setApp({...app, currentPage: 'accueil'})}
-          width={topBarButtonWidth}
-        />
-        <Titre>{`Partie`}</Titre>
-        <CustomButton
-          text="Edition"
-          icon="pencil-outline"
-          onPress={() => setApp({...app, currentPage: 'editGame'})}
-          width={topBarButtonWidth}
-        />
-      </TopBar>
+      <TopBar
+        left={
+          <CustomButton
+            text="Accueil"
+            icon="home"
+            onPress={() => setApp({...app, currentPage: 'accueil'})}
+            width={topBarButtonWidth}
+          />
+        }
+        middle={<Titre>{`Partie`}</Titre>}
+        right={
+          <CustomButton
+            text="Edition"
+            icon="pencil-outline"
+            onPress={() => setApp({...app, currentPage: 'editGame'})}
+            width={topBarButtonWidth}
+          />
+        }
+      />
       <LastPlay>
         <Text>{game.lastPlay}</Text>
       </LastPlay>
@@ -53,7 +58,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
           hidden={game.lastGame === undefined}
         />
       </WrapperCancel>
-      <PlayerScrollView>
+      <PlayerScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         {game.players.map((p) => (
           <PlayerView
             key={p.id}
@@ -72,15 +77,6 @@ const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
   height: 100%;
-`;
-
-const TopBar = styled.View`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex-shrink: 0;
-  background-color: ${topBarBackgroundColor};
-  padding: ${spacing / 2}px;
 `;
 
 const Titre = styled.Text`

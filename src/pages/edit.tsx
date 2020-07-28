@@ -3,6 +3,7 @@ import {Alert, Keyboard, ScrollView, View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {CustomButton} from '../components/custom_buttons';
+import {TopBar} from '../components/top_bar';
 import {
   addPlayer,
   delPlayer,
@@ -114,23 +115,33 @@ export const Edit: React.FC<EditProps> = (props) => {
 
   return (
     <Wrapper>
-      <TopBar>
-        <CustomButton
-          icon="trash-can-outline"
-          text="Effacer"
-          onPress={onPressDelete}
-          iconSizeRatio={1.2}
-          width={topBarButtonWidth}
-        />
-        <Titre>{`Edition`}</Titre>
-        <CustomButton
-          text="Jouer !"
-          onPress={onPressPlay}
-          disabled={game.players.length === 0}
-          width={topBarButtonWidth}
-        />
-      </TopBar>
-      <ScrollView keyboardShouldPersistTaps="handled">{scrollViewContent}</ScrollView>
+      <TopBar
+        left={
+          <CustomButton
+            icon="trash-can-outline"
+            text="Effacer"
+            onPress={onPressDelete}
+            iconSizeRatio={1.2}
+            width={topBarButtonWidth}
+          />
+        }
+        middle={<Titre>{`Edition`}</Titre>}
+        right={
+          <CustomButton
+            text="Jouer !"
+            onPress={onPressPlay}
+            disabled={game.players.length === 0}
+            width={topBarButtonWidth}
+          />
+        }
+      />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
+        {scrollViewContent}
+      </ScrollView>
       <WrapperAdd>
         <CustomButton
           icon="account-plus"
@@ -148,16 +159,6 @@ const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
   height: 100%;
-`;
-
-const TopBar = styled.View`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex-shrink: 0;
-  background-color: ${topBarBackgroundColor};
-  padding: ${spacing / 2}px;
-  margin-bottom: ${spacing}px;
 `;
 
 const PlayerWrapper = styled.View`
@@ -198,7 +199,7 @@ const Titre = styled.Text`
 
 const WrapperAdd = styled.View`
   margin: ${spacing}px;
-  margin-bottom: 0px;
+  margin-bottom: ${2 * spacing}px;
 `;
 
 const WrapperSwap = styled.View`

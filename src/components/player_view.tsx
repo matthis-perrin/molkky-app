@@ -7,6 +7,7 @@ import {addFail, addPlay, isDone, useGames} from '../lib/stores';
 import {
   borderColor,
   borderRadius,
+  elevations,
   fontSizes,
   pastilleBackgroundColor,
   pastilleColor,
@@ -38,6 +39,7 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
     <PlayerViewWrapper
       style={{
         opacity: props.isCurrentPlayer && !isDone(game) ? 1 : 0.8,
+        ...elevations.medium,
       }}
     >
       <Wrapper>

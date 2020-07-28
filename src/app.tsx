@@ -1,17 +1,28 @@
 import React, {Fragment} from 'react';
+import {StatusBar, View} from 'react-native';
+import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
 // import {clearPersistentDataStore} from './lib/data_store';
 import {useApp} from './lib/stores';
-import {appBackgroundColor} from './lib/theme';
+import {appBackgroundColor, topBarBackgroundColor} from './lib/theme';
 import {Accueil} from './pages/accueil';
 import {Edit} from './pages/edit';
 import {GamePage} from './pages/game';
 
 // clearPersistentDataStore('games');
 
-export const App: React.FC = () => {
+export const App: React.FC = () => (
+  <SafeAreaProvider>
+    <AppWithProvider />
+    <StatusBar barStyle="light-content" />
+  </SafeAreaProvider>
+);
+App.displayName = 'App';
+
+const AppWithProvider: React.FC = () => {
   const [app] = useApp();
+  const insets = useSafeAreaInsets();
 
   let content = <Fragment />;
   if (app.currentPage === 'accueil') {
@@ -23,17 +34,19 @@ export const App: React.FC = () => {
   }
 
   return (
-    <StyledSafeArea>
+    <AppWrapper>
       <AppContainer>{content}</AppContainer>
-    </StyledSafeArea>
+      <View style={{height: insets.bottom}} />
+    </AppWrapper>
   );
 };
-App.displayName = 'App';
+AppWithProvider.displayName = 'AppWithProvider';
 
-const StyledSafeArea = styled.SafeAreaView`
-  height: 100%;
-  background-color: ${appBackgroundColor};
+const AppWrapper = styled.View`
+  background-color: ${topBarBackgroundColor};
 `;
+
 const AppContainer = styled.View`
   height: 100%;
+  background-color: ${appBackgroundColor};
 `;
