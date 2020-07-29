@@ -25,6 +25,7 @@ import {
   pastilleBackgroundColor,
   spacing,
   topBarButtonWidth,
+  topBarColor,
 } from '../lib/theme';
 
 interface EditProps {
@@ -173,6 +174,7 @@ const TextInputPlayer = styled.TextInput`
   height: ${buttonHeight.medium}px;
   border-radius: ${borderRadius}px;
   padding-left: ${spacing}px;
+  margin: 0 ${spacing / 2}px;
 `;
 
 const TextInputFailDesign = styled.TextInput`
@@ -189,6 +191,7 @@ const Titre = styled.Text`
   font-size: ${fontSizes.medium}px;
   flex-grow: 1;
   text-align: center;
+  color: ${topBarColor};
 `;
 
 const StyledScrollView = styled.ScrollView`

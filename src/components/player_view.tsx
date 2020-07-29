@@ -90,6 +90,7 @@ const PlayerViewWrapper = styled.View`
   padding: ${spacing}px;
   border-radius: ${borderRadius * 2}px;
   background-color: ${pastilleBackgroundColor};
+  color: ${pastilleColor};
 `;
 
 const Wrapper = styled.View`
@@ -102,6 +103,7 @@ const Name = styled.Text`
   flex-shrink: 1;
   flex-grow: 1;
   font-size: ${fontSizes.medium}px;
+  color: ${pastilleColor};
 `;
 
 const Score = styled.Text`
@@ -110,6 +112,7 @@ const Score = styled.Text`
   font-size: ${fontSizes.extraLarge}px;
   font-weight: 500;
   text-align: right;
+  color: ${pastilleColor};
 `;
 
 const KeyboardWrapper = styled.View`

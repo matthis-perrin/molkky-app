@@ -8,7 +8,14 @@ import {PlayerView} from '../components/player_view';
 import {SpaceJoin} from '../components/space_join';
 import {TopBar} from '../components/top_bar';
 import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
-import {bannerBackgroundColor, fontSizes, spacing, topBarButtonWidth} from '../lib/theme';
+import {
+  bannerBackgroundColor,
+  bannerColor,
+  fontSizes,
+  spacing,
+  topBarButtonWidth,
+  topBarColor,
+} from '../lib/theme';
 
 interface GameProps {
   gameId: number;
@@ -43,7 +50,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
         }
       />
       <LastPlay>
-        <Text>{game.lastPlay}</Text>
+        <TextLastPlay>{game.lastPlay}</TextLastPlay>
       </LastPlay>
       <WrapperCancel>
         <CustomButton
@@ -76,6 +83,7 @@ const Titre = styled.Text`
   font-size: ${fontSizes.medium}px;
   flex-grow: 1;
   text-align: center;
+  color: ${topBarColor};
 `;
 
 const LastPlay = styled.View`
@@ -94,4 +102,8 @@ const PlayerScrollView = styled.ScrollView`
 const WrapperCancel = styled.View`
   margin: ${spacing}px;
   margin-bottom: 0px;
+`;
+
+const TextLastPlay = styled.Text`
+  color: ${bannerColor};
 `;

@@ -1,19 +1,24 @@
 //
 // Colors
 //
-// export const appBackgroundColor = '#2F363F';
-export const appBackgroundColor = '#CFC6CF';
-export const buttonBackgroundColor = '#616C6F';
-export const buttonColor = '#DAE0E2';
-export const topBarColor = '#000000';
-export const topBarBackgroundColor = '#A4B0BD';
-export const pastilleBackgroundColor = '#DAE0E2';
-export const pastilleColor = '#000000';
-export const inputBackgroundColor = '#FFFFFF';
-export const inputColor = '#000000';
-export const bannerBackgroundColor = '#A4B0BD';
-export const bannerColor = '#000000';
-export const borderColor = '#000000';
+export const primary = '#315c77';
+export const pDark = '#00334b';
+export const pLight = '#6089a6';
+export const gray = '#E1E2E1';
+export const black = '#333333';
+export const white = '#FFFFFF';
+export const appBackgroundColor = white;
+export const buttonBackgroundColor = pLight;
+export const buttonColor = white;
+export const topBarColor = white;
+export const topBarBackgroundColor = primary;
+export const pastilleBackgroundColor = gray;
+export const pastilleColor = black;
+export const inputBackgroundColor = white;
+export const inputColor = black;
+export const bannerBackgroundColor = pDark;
+export const bannerColor = white;
+export const borderColor = gray;
 
 //
 // UI constants

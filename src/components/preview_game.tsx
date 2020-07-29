@@ -62,6 +62,7 @@ const PreviewGameWrapper = styled.TouchableOpacity`
   padding: ${spacing}px;
   background-color: ${pastilleBackgroundColor};
   border-radius: ${borderRadius * 2}px;
+  color: ${pastilleColor};
 `;
 
 const WrapperDate = styled.View`
@@ -74,6 +75,7 @@ const CreationTime = styled.Text`
   text-align: left;
   margin-bottom: ${spacing}px;
   font-size: ${fontSizes.medium}px;
+  color: ${pastilleColor};
 `;
 
 const Wrapper = styled.View`
@@ -91,6 +93,7 @@ const Name = styled.Text`
   flex-shrink: 1;
   flex-grow: 1;
   font-size: ${fontSizes.medium}px;
+  color: ${pastilleColor};
 `;
 
 const Score = styled.Text`
@@ -99,4 +102,5 @@ const Score = styled.Text`
   font-size: ${fontSizes.large}px;
   font-weight: 500;
   text-align: right;
+  color: ${pastilleColor};
 `;

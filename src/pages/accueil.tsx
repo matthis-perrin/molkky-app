@@ -8,7 +8,7 @@ import {SpaceJoin} from '../components/space_join';
 import {TopBar} from '../components/top_bar';
 // import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, isDone, useGames} from '../lib/stores';
-import {fontSizes, spacing} from '../lib/theme';
+import {fontSizes, spacing, topBarColor} from '../lib/theme';
 
 export const Accueil: React.FC = () => {
   const [games] = useGames();
@@ -45,6 +45,7 @@ Accueil.displayName = 'Accueil';
 const Title = styled.Text`
   font-size: ${fontSizes.medium}px;
   text-align: center;
+  color: ${topBarColor};
 `;
 
 const WrapperAdd = styled.View`

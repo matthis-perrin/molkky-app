@@ -22,7 +22,6 @@ App.displayName = 'App';
 
 const AppWithProvider: React.FC = () => {
   const [app] = useApp();
-  const insets = useSafeAreaInsets();
 
   let content = <Fragment />;
   if (app.currentPage === 'accueil') {
