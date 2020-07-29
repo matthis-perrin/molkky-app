@@ -60,24 +60,84 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
       >
         <BorderSeparator></BorderSeparator>
         <Line>
-          <CustomButton width={scoreButtonWidth} text="1" onPress={() => onPressNumber(1)} />
-          <CustomButton width={scoreButtonWidth} text="2" onPress={() => onPressNumber(2)} />
-          <CustomButton width={scoreButtonWidth} text="3" onPress={() => onPressNumber(3)} />
-          <CustomButton width={scoreButtonWidth} text="4" onPress={() => onPressNumber(4)} />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="1"
+            onPress={() => onPressNumber(1)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="2"
+            onPress={() => onPressNumber(2)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="3"
+            onPress={() => onPressNumber(3)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="4"
+            onPress={() => onPressNumber(4)}
+          />
         </Line>
         <Line>
-          <CustomButton width={scoreButtonWidth} text="5" onPress={() => onPressNumber(5)} />
-          <CustomButton width={scoreButtonWidth} text="6" onPress={() => onPressNumber(6)} />
-          <CustomButton width={scoreButtonWidth} text="7" onPress={() => onPressNumber(7)} />
-          <CustomButton width={scoreButtonWidth} text="8" onPress={() => onPressNumber(8)} />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="5"
+            onPress={() => onPressNumber(5)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="6"
+            onPress={() => onPressNumber(6)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="7"
+            onPress={() => onPressNumber(7)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="8"
+            onPress={() => onPressNumber(8)}
+          />
         </Line>
         <Line>
-          <CustomButton width={scoreButtonWidth} text="9" onPress={() => onPressNumber(9)} />
-          <CustomButton width={scoreButtonWidth} text="10" onPress={() => onPressNumber(10)} />
-          <CustomButton width={scoreButtonWidth} text="11" onPress={() => onPressNumber(11)} />
-          <CustomButton width={scoreButtonWidth} text="12" onPress={() => onPressNumber(12)} />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="9"
+            onPress={() => onPressNumber(9)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="10"
+            onPress={() => onPressNumber(10)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="11"
+            onPress={() => onPressNumber(11)}
+          />
+          <CustomButton
+            keyboardStyle
+            width={scoreButtonWidth}
+            text="12"
+            onPress={() => onPressNumber(12)}
+          />
         </Line>
-        <CustomButton text={`${player.failDesign} Raté`} onPress={onPressFail} />
+        <CustomButton keyboardStyle text={`${player.failDesign} Raté`} onPress={onPressFail} />
       </KeyboardWrapper>
     </PlayerViewWrapper>
   );

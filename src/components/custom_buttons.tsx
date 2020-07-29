@@ -10,6 +10,8 @@ import {
   buttonHeight,
   elevations,
   fontSizes,
+  keyboardBackgroundColor,
+  keyboardColor,
 } from '../lib/theme';
 
 interface CustomButtonProps {
@@ -21,6 +23,7 @@ interface CustomButtonProps {
   disabled?: boolean;
   iconSizeRatio?: number;
   hidden?: boolean;
+  keyboardStyle?: boolean;
 }
 
 export const CustomButton: React.FC<CustomButtonProps> = (props) => {
@@ -38,7 +41,7 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
         key="icon"
         name={props.icon}
         size={fontSize * ratioIconSize}
-        color={buttonColor}
+        color={props.keyboardStyle ? keyboardColor : buttonColor}
       />
     );
     if (props.text !== undefined) {
@@ -49,7 +52,10 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
   }
   if (props.text !== undefined) {
     buttonContent.push(
-      <ButtonText key="text" style={{fontSize}}>
+      <ButtonText
+        key="text"
+        style={{fontSize, color: props.keyboardStyle ? keyboardColor : buttonColor}}
+      >
         {props.text}
       </ButtonText>
     );
@@ -61,7 +67,15 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
       disabled={props.disabled}
       style={{...elevations.medium, opacity, display: props.hidden ? 'none' : undefined}}
     >
-      <ButtonContent style={{height, width}}>{buttonContent}</ButtonContent>
+      <ButtonContent
+        style={{
+          height,
+          width,
+          backgroundColor: props.keyboardStyle ? keyboardBackgroundColor : buttonBackgroundColor,
+        }}
+      >
+        {buttonContent}
+      </ButtonContent>
     </TouchableOpacity>
   );
 };
@@ -73,11 +87,8 @@ const ButtonContent = styled.View`
   align-items: center;
   justify-content: center;
   border-radius: ${borderRadius}px;
-  background-color: ${buttonBackgroundColor};
 `;
 
 const Separator = styled.View``;
 
-const ButtonText = styled.Text`
-  color: ${buttonColor};
-`;
+const ButtonText = styled.Text``;
