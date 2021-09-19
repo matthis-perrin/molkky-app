@@ -11,6 +11,7 @@ import {appBackgroundColor, topBarBackgroundColor} from './lib/theme';
 import {Accueil} from './pages/accueil';
 import {Edit} from './pages/edit';
 import {GamePage} from './pages/game';
+import {RandomTeams} from './pages/random_teams';
 
 // clearPersistentDataStore('games');
 
@@ -24,6 +25,8 @@ export const App: FC = () => {
     content = <GamePage gameId={app.currentGameId} />;
   } else if (app.currentPage === 'editGame' && app.currentGameId !== undefined) {
     content = <Edit gameId={app.currentGameId} />;
+  } else if (app.currentPage === 'randomTeam' && app.currentGameId !== undefined) {
+    content = <RandomTeams gameId={app.currentGameId} />;
   }
 
   return (

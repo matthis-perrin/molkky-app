@@ -70,6 +70,10 @@ export const Edit: React.FC<EditProps> = (props) => {
     addPlayer(game);
   }, [game]);
 
+  const handleRandomTeamPress = useCallback(() => {
+    setApp({...app, currentPage: 'randomTeam'});
+  }, [app]);
+
   const handleDeletePlayerPress = (player: Player): void => {
     if (game === undefined) {
       return;
@@ -127,7 +131,7 @@ export const Edit: React.FC<EditProps> = (props) => {
           defaultValue={p.name}
         />
         <CustomButton
-          icon="backspace-outline"
+          icon="trash-can-outline"
           // eslint-disable-next-line react/jsx-no-bind
           onPress={() => handleDeletePlayerPress(p)}
         />
@@ -177,14 +181,22 @@ export const Edit: React.FC<EditProps> = (props) => {
       >
         {scrollViewContent}
       </StyledScrollView>
-      <WrapperAdd>
+      <ButtonWrapper>
         <CustomButton
           icon="account-plus"
           text="Ajouter joueur"
           onPress={handleAddPlayerPress}
           size="large"
         />
-      </WrapperAdd>
+      </ButtonWrapper>
+      <ButtonWrapper>
+        <CustomButton
+          icon="dice-3"
+          text="Tirer les équipes au hasard"
+          onPress={handleRandomTeamPress}
+          size="large"
+        />
+      </ButtonWrapper>
       <BottomBar />
     </Fragment>
   );
@@ -232,7 +244,7 @@ const StyledScrollView = styled.ScrollView`
   flex-grow: 1;
 `;
 
-const WrapperAdd = styled.View`
+const ButtonWrapper = styled.View`
   margin: ${spacing}px;
   margin-bottom: 0;
   background-color: transparent;

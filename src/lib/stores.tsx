@@ -20,7 +20,7 @@ export interface Game {
 
 interface App {
   currentGameId?: number;
-  currentPage: 'accueil' | 'playGame' | 'editGame';
+  currentPage: 'accueil' | 'playGame' | 'editGame' | 'randomTeam';
 }
 
 const gameDataStore = createPersistentDataStore<Game[]>('games', []);
@@ -141,11 +141,11 @@ export const cloneGame = (game: Game): Game => ({
   lastPlay: game.lastPlay,
 });
 
-export function updatePlayerInGame(
+const updatePlayerInGame = (
   game: Game,
   playerId: number,
   changes: Partial<Player>
-): {updatedGame: Game; updatedPlayer: Player} {
+): {updatedGame: Game; updatedPlayer: Player} => {
   const player = game.players.find((p) => p.id === playerId);
   if (player === undefined) {
     throw new Error('Player not found');
@@ -157,9 +157,9 @@ export function updatePlayerInGame(
     lastGame: game,
   };
   return {updatedGame, updatedPlayer};
-}
+};
 
-function getNextPlayerId(game: Game): number {
+const getNextPlayerId = (game: Game): number => {
   for (let index = 0; index < game.players.length; index++) {
     const p = game.players[index];
     if (p.id === game.currentPlayerId) {
@@ -170,7 +170,7 @@ function getNextPlayerId(game: Game): number {
     }
   }
   return -1;
-}
+};
 
 export const isDone = (game: Game): boolean => {
   const objectiveScore = 50;
