@@ -10,7 +10,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#2F363F"
     },
-    "entryPoint": "./index.js",
     "updates": {
       "fallbackToCacheTimeout": 0
     },

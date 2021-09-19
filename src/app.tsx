@@ -1,7 +1,7 @@
 // import {StatusBar} from '@react-native';
 // import {NavigationContainer} from '@react-navigation/native';
 // import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {FC, Fragment} from 'react';
+import React, {FC, Fragment} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
@@ -14,7 +14,7 @@ import {GamePage} from './pages/game';
 
 // clearPersistentDataStore('games');
 
-const App: FC = () => {
+export const App: FC = () => {
   const [app] = useApp();
 
   let content = <Fragment />;
