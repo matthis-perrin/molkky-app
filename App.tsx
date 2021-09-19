@@ -1,3 +1,5 @@
-import * as app from './src/app';
+/* eslint-disable unicorn/filename-case */
+import {App} from './src/app';
 
-export default app.App;
+export default App;
+/* eslint-enable unicorn/filename-case */

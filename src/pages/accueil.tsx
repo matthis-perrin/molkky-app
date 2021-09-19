@@ -19,7 +19,7 @@ import {
 } from '../lib/theme';
 
 export const Accueil: React.FC = () => {
-  const [modalShown, setModalShown] = useState(true);
+  const [modalShown, setModalShown] = useState(false);
 
   const [games] = useGames();
   const sortedGames = games.sort((g1, g2) => g2.creationTime - g1.creationTime);

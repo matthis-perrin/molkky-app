@@ -1,17 +1,17 @@
 const weekDay = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 
-function padNumber(number: number): string {
+const padNumber = (number: number): string => {
   if (number < 10) {
     return `0${number}`;
   }
   return String(number);
-}
+};
 
-function formatDay(number: number): string {
+const formatDay = (number: number): string => {
   return weekDay[number];
-}
+};
 
-export function formatDate(number: number): string {
+export const formatDate = (number: number): string => {
   const d = new Date(number);
   const dayString = formatDay(d.getDay());
   const date = padNumber(d.getDate());
@@ -21,4 +21,4 @@ export function formatDate(number: number): string {
   const hours = padNumber(d.getHours());
   const minutes = padNumber(d.getMinutes());
   return `${dayString} ${date}/${month}/${year} à ${hours}:${minutes}`;
-}
+};

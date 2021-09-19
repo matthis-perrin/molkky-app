@@ -7,6 +7,7 @@ interface DataStoreApi<GetData, SetData> {
   useData: () => [GetData];
 }
 
+/* eslint-disable no-implicit-globals */
 export function createDataStore<T>(): DataStoreApi<T | undefined, T>;
 export function createDataStore<T>(initialValue: T): DataStoreApi<T, T>;
 export function createDataStore<T>(initialValue?: T): DataStoreApi<T | undefined, T> {
@@ -43,11 +44,12 @@ export function createDataStore<T>(initialValue?: T): DataStoreApi<T | undefined
 
   return {getData, setData, useData};
 }
+/* eslint-enable no-implicit-globals */
 
-export function createPersistentDataStore<T>(
+export const createPersistentDataStore = <T,>(
   name: string,
   valueWhileLoading: T
-): DataStoreApi<T, T> {
+): DataStoreApi<T, T> => {
   const dataStore = createDataStore(valueWhileLoading);
   const oldSetData = dataStore.setData;
   dataStore.setData = (data: T): void => {
@@ -71,10 +73,10 @@ export function createPersistentDataStore<T>(
     );
 
   return dataStore;
-}
+};
 
-export function clearPersistentDataStore(name: string): void {
+export const clearPersistentDataStore = (name: string): void => {
   AsyncStorage.removeItem(name).catch(
     (err) => console.error('Failure to clear data from the storage', err) // eslint-disable-line no-console
   );
-}
+};
