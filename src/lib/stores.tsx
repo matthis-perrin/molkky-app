@@ -95,7 +95,7 @@ const checkPerfectInternal = (player: Player, game: Game): Record<number, Player
   if (Object.keys(scoreChanges).length === 0) {
     return {};
   }
-  return {...scoreChanges, ...checkPerfectInternal(player, game)};
+  return {...scoreChanges, ...checkPerfectInternal(Object.values(scoreChanges)[0].player, game)};
 };
 
 const checkPerfect = (player: Player, game: Game): void => {

@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import {BottomBar} from '../components/bottom_bar';
 import {CustomButton} from '../components/custom_buttons';
 import {TopBar} from '../components/top_bar';
-import {setApp, setGame, useApp, useGames} from '../lib/stores';
+import {Player, setApp, setGame, useApp, useGames} from '../lib/stores';
 import {
   borderRadius,
   buttonHeight,
@@ -83,14 +83,22 @@ export const RandomTeams: React.FC<RandomTeamsProps> = (props) => {
       return;
     }
 
-    game.players = teamRepartition.map((team, i) => ({
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      id: Math.round(Math.random() * 1000000),
-      name: team.length === 0 ? `Équipe ${i + 1}` : team.map((p) => players[p]).join(' + '),
-      fail: 0,
-      score: 0,
-      failDesign: '💣',
-    }));
+    game.players = teamRepartition.map((team, i) => {
+      const current = game.players[i] as Player | undefined;
+      const teamName =
+        team.length === 0 ? `Équipe ${i + 1}` : team.map((p) => players[p]).join(' + ');
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        id: Math.round(Math.random() * 1000000),
+        fail: 0,
+        score: 0,
+        ...(current ?? {}),
+        ...{
+          name: teamName,
+          failDesign: '💣',
+        },
+      };
+    });
     setGame(game);
 
     if (game.currentPlayerId === 0) {
