@@ -8,10 +8,12 @@ import {setApp, setGame, useApp, useGames} from '../lib/stores';
 import {
   borderRadius,
   buttonHeight,
+  elevations,
   fontSizes,
   inputBackgroundColor,
   pastilleBackgroundColor,
   spacing,
+  topBarBackgroundColor,
   topBarButtonWidth,
   topBarColor,
 } from '../lib/theme';
@@ -148,18 +150,24 @@ export const RandomTeams: React.FC<RandomTeamsProps> = (props) => {
           ))}
         </TeamsWrapper>
       </StyledScrollView>
-      <ButtonWrapper>
-        <CustomButton
-          icon="account-plus"
-          text="Ajouter joueur"
-          onPress={handleAddPlayerPress}
-          size="large"
-        />
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <CustomButton text="Mélanger !" onPress={handleShufflePress} size="large" />
-      </ButtonWrapper>
-      <BottomBar />
+      <ButtonsWrapper
+        style={{
+          ...elevations.extraLarge,
+        }}
+      >
+        <ButtonWrapper>
+          <CustomButton
+            icon="account-plus"
+            text="Ajouter joueur"
+            onPress={handleAddPlayerPress}
+            size="large"
+          />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <CustomButton text="Mélanger !" onPress={handleShufflePress} size="large" />
+        </ButtonWrapper>
+      </ButtonsWrapper>
+      <BottomBar dark />
     </Fragment>
   );
 };
@@ -234,4 +242,9 @@ const ButtonWrapper = styled.View`
   margin: ${spacing}px;
   margin-bottom: 0;
   background-color: transparent;
+`;
+
+const ButtonsWrapper = styled.View`
+  display: flex;
+  background-color: ${topBarBackgroundColor};
 `;

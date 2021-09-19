@@ -24,6 +24,7 @@ import {
   inputBackgroundColor,
   pastilleBackgroundColor,
   spacing,
+  topBarBackgroundColor,
   topBarButtonWidth,
   topBarColor,
 } from '../lib/theme';
@@ -181,23 +182,25 @@ export const Edit: React.FC<EditProps> = (props) => {
       >
         {scrollViewContent}
       </StyledScrollView>
-      <ButtonWrapper>
-        <CustomButton
-          icon="account-plus"
-          text="Ajouter joueur"
-          onPress={handleAddPlayerPress}
-          size="large"
-        />
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <CustomButton
-          icon="dice-3"
-          text="Tirer les équipes au hasard"
-          onPress={handleRandomTeamPress}
-          size="large"
-        />
-      </ButtonWrapper>
-      <BottomBar />
+      <ButtonsWrapper>
+        <ButtonWrapper>
+          <CustomButton
+            icon="account-plus"
+            text="Ajouter joueur"
+            onPress={handleAddPlayerPress}
+            size="large"
+          />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <CustomButton
+            icon="dice-3"
+            text="Tirer les équipes au hasard"
+            onPress={handleRandomTeamPress}
+            size="large"
+          />
+        </ButtonWrapper>
+      </ButtonsWrapper>
+      <BottomBar dark />
     </Fragment>
   );
 };
@@ -254,4 +257,9 @@ const WrapperSwap = styled.View`
   align-items: center;
   margin: ${-spacing / 2}px 0;
   z-index: 2;
+`;
+
+const ButtonsWrapper = styled.View`
+  display: flex;
+  background-color: ${topBarBackgroundColor};
 `;
