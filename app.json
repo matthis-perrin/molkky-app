@@ -1,21 +1,19 @@
 {
   "expo": {
-    "name": "App Audric",
-    "slug": "app_audric",
+    "name": "molkky-app",
+    "slug": "molkky-app",
     "version": "1.0.0",
-    "platforms": [
-      "ios"
-    ],
-    "orientation": "default",
+    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#2F363F"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "description": ""
+    "entryPoint": "./index.js",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"]
   }
 }

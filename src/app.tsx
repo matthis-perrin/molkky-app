@@ -1,6 +1,8 @@
+// import {StatusBar} from '@react-native';
+// import {NavigationContainer} from '@react-navigation/native';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {Fragment} from 'react';
-import {StatusBar, View} from 'react-native';
-import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
 // import {clearPersistentDataStore} from './lib/data_store';
@@ -15,7 +17,7 @@ import {GamePage} from './pages/game';
 export const App: React.FC = () => (
   <SafeAreaProvider>
     <AppWithProvider />
-    <StatusBar barStyle="light-content" />
+    {/* <StatusBar barStyle="light-content" /> */}
   </SafeAreaProvider>
 );
 App.displayName = 'App';
