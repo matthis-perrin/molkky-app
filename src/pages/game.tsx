@@ -1,5 +1,4 @@
-import React, {Fragment} from 'react';
-import {Text} from 'react-native';
+import React, {Fragment, useCallback} from 'react';
 import styled from 'styled-components/native';
 
 import {BottomBar} from '../components/bottom_bar';
@@ -7,7 +6,7 @@ import {CustomButton} from '../components/custom_buttons';
 import {PlayerView} from '../components/player_view';
 import {SpaceJoin} from '../components/space_join';
 import {TopBar} from '../components/top_bar';
-import {loadingPreviusPlay, setApp, useApp, useGames} from '../lib/stores';
+import {loadingPreviousPlay, setApp, useApp, useGames} from '../lib/stores';
 import {
   bannerBackgroundColor,
   bannerColor,
@@ -25,6 +24,16 @@ export const GamePage: React.FC<GameProps> = (props) => {
   const [app] = useApp();
   const [games] = useGames();
   const game = games.find((g) => g.id === props.gameId);
+
+  const handleHomePagePress = useCallback(() => setApp({...app, currentPage: 'accueil'}), [app]);
+  const handleEditPagePress = useCallback(() => setApp({...app, currentPage: 'editGame'}), [app]);
+  const handleCancelLastTurnPress = useCallback(() => {
+    if (game === undefined) {
+      return;
+    }
+    loadingPreviousPlay(game);
+  }, [game]);
+
   if (game === undefined) {
     return <Fragment />;
   }
@@ -35,7 +44,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
           <CustomButton
             text="Accueil"
             icon="home"
-            onPress={() => setApp({...app, currentPage: 'accueil'})}
+            onPress={handleHomePagePress}
             width={topBarButtonWidth}
           />
         }
@@ -44,7 +53,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
           <CustomButton
             text="Edition"
             icon="pencil-outline"
-            onPress={() => setApp({...app, currentPage: 'editGame'})}
+            onPress={handleEditPagePress}
             width={topBarButtonWidth}
           />
         }
@@ -57,7 +66,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
           text="Annuler le dernier lancé"
           icon="undo"
           size="large"
-          onPress={() => loadingPreviusPlay(game)}
+          onPress={handleCancelLastTurnPress}
           hidden={game.lastGame === undefined}
         />
       </WrapperCancel>

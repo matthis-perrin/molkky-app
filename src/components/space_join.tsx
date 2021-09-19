@@ -8,10 +8,11 @@ interface SpaceJoinProps {
 }
 
 export const SpaceJoin: React.FC<SpaceJoinProps> = (props) => {
-  const {height = spacing} = props;
+  const {height = spacing, children} = props;
   const content: ReactNode[] = [];
-  React.Children.forEach(props.children, (child, i) => {
+  React.Children.forEach(children, (child, i) => {
     if (i > 0) {
+      // eslint-disable-next-line react/no-array-index-key
       content.push(<View key={i} style={{height}} />);
     }
     content.push(child);

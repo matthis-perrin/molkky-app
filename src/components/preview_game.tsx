@@ -1,9 +1,9 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import React, {Fragment} from 'react';
+import React, {Fragment, useCallback} from 'react';
 import styled from 'styled-components/native';
 
 import {formatDate} from '../lib/format';
-import {getApp, isDone, Player, setApp, useGames} from '../lib/stores';
+import {getApp, isDone, setApp, useGames} from '../lib/stores';
 import {
   borderRadius,
   elevations,
@@ -12,26 +12,34 @@ import {
   pastilleColor,
   spacing,
 } from '../lib/theme';
-import {PlayerFailIcon} from './fail_icon';
+import {PlayerFailIcon} from './player_fail_icon';
 
 interface PreviewGameProps {
   gameId: number;
 }
 
 const maxFail = 3;
+const WINNER_SCORE = 50;
 
 export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
+  const {gameId} = props;
+
   const [games] = useGames();
-  const game = games.find((g) => g.id === props.gameId);
+  const game = games.find((g) => g.id === gameId);
+
+  const handleGamePress = useCallback(() => {
+    setApp({...getApp(), currentPage: 'playGame', currentGameId: gameId});
+  }, [gameId]);
+
+  if (game === undefined) {
+    return <Fragment />;
+  }
+
   const sortedPlayer = [...game.players];
   sortedPlayer.sort((p1, p2) => p2.score - p1.score);
-  const onPressGame = (): void => {
-    setApp({...getApp(), currentPage: 'playGame', currentGameId: props.gameId});
-  };
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  const isWinner = (player: Player): boolean => player.score === 50;
+
   return (
-    <PreviewGameWrapper style={elevations.small} activeOpacity={0.7} onPress={onPressGame}>
+    <PreviewGameWrapper style={elevations.small} activeOpacity={0.7} onPress={handleGamePress}>
       <Wrapper>
         <WrapperDate>
           <CreationTime>{formatDate(game.creationTime)}</CreationTime>
@@ -45,7 +53,7 @@ export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
         {sortedPlayer.map((p) => (
           <WrapperPlayer key={p.id}>
             <Name numberOfLines={1} ellipsizeMode="tail">
-              {`${isWinner(p) ? '🏆 ' : ''}${p.name}`}
+              {`${p.score === WINNER_SCORE ? '🏆 ' : ''}${p.name}`}
             </Name>
             {isDone(game) ? <Fragment /> : <PlayerFailIcon player={p} maxFail={maxFail} />}
             <Score>{p.score}</Score>

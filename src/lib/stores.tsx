@@ -76,45 +76,48 @@ export const delPlayer = (game: Game, player: Player): void => {
   setGame(game);
 };
 
-const checkPerfectInternal = (player: Player, game: Game): Player[] => {
+interface PlayerScoreChange {
+  player: Player;
+  previousScore: number;
+}
+
+const checkPerfectInternal = (player: Player, game: Game): Record<number, PlayerScoreChange> => {
   if (player.score === 0) {
     return [];
   }
+  const scoreChanges: Record<number, PlayerScoreChange> = {};
   for (const p of game.players) {
     if (p.id !== player.id && p.score === player.score) {
+      scoreChanges[p.id] = {player: p, previousScore: p.score};
       p.score = Math.floor(p.score / 2);
-      return [...checkPerfectInternal(p, game), p];
     }
   }
-  return [];
+  if (Object.keys(scoreChanges).length === 0) {
+    return {};
+  }
+  return {...scoreChanges, ...checkPerfectInternal(player, game)};
 };
 
-export const checkPerfect = (player: Player, game: Game): void => {
+const checkPerfect = (player: Player, game: Game): void => {
   const playerPowned = checkPerfectInternal(player, game);
-  if (playerPowned.length > 0) {
+  if (Object.keys(playerPowned).length > 0) {
     Alert.alert(
       'Powned !',
-      playerPowned
-        .reverse()
-        .map(
-          (p) =>
-            `${p.name} is powned (${
-              game.lastGame?.players.find((lastp) => p.id === lastp.id).score
-            } => ${p.score})`
-        )
+      Object.values(playerPowned)
+        .map((p) => `${p.player.name} is powned (${p.previousScore} => ${p.player.score})`)
         .join('\n'),
       [{text: 'Haha'}]
     );
   }
 };
 
-export const overtaking = (player: Player, game: Game): void => {
+const handleScoreTooBig = (player: Player, game: Game): void => {
   player.score = 25;
   checkPerfect(player, game);
   Alert.alert('Dépassement !', `${player.name} à dépassé la limite`, [{text: 'Haha'}]);
 };
 
-export const overFail = (player: Player, game: Game): void => {
+const overFail = (player: Player, game: Game): void => {
   const objectiveScore = 50;
   if (player.score >= objectiveScore / 2) {
     player.score = objectiveScore / 2;
@@ -129,7 +132,7 @@ export const overFail = (player: Player, game: Game): void => {
   checkPerfect(player, game);
 };
 
-export const memorizeGame = (game: Game): Game => ({
+export const cloneGame = (game: Game): Game => ({
   id: game.id,
   creationTime: game.creationTime,
   players: game.players.map((p) => ({...p})),
@@ -137,6 +140,24 @@ export const memorizeGame = (game: Game): Game => ({
   lastGame: game,
   lastPlay: game.lastPlay,
 });
+
+export function updatePlayerInGame(
+  game: Game,
+  playerId: number,
+  changes: Partial<Player>
+): {updatedGame: Game; updatedPlayer: Player} {
+  const player = game.players.find((p) => p.id === playerId);
+  if (player === undefined) {
+    throw new Error('Player not found');
+  }
+  const updatedPlayer = {...player, ...changes};
+  const updatedGame = {
+    ...game,
+    players: game.players.map((p) => (p.id === playerId ? updatedPlayer : {...p})),
+    lastGame: game,
+  };
+  return {updatedGame, updatedPlayer};
+}
 
 function getNextPlayerId(game: Game): number {
   for (let index = 0; index < game.players.length; index++) {
@@ -162,40 +183,41 @@ export const isDone = (game: Game): boolean => {
 };
 
 export const addPlay = (num: number, player: Player, game: Game): void => {
-  const newGame = memorizeGame(game);
-  const newPlayer = newGame.players.find((p) => p.id === player.id);
-  newGame.lastPlay =
-    num === 1 ? `${newPlayer.name} marque ${num} point` : `${newPlayer.name} marque ${num} points`;
-  newPlayer.score += num;
-  newPlayer.fail = 0;
-  const objectiveScore = 50;
-  if (newPlayer.score > objectiveScore) {
-    overtaking(newPlayer, newGame);
+  const newScore = player.score + num;
+  const {updatedGame, updatedPlayer} = updatePlayerInGame(game, player.id, {
+    score: newScore,
+    fail: 0,
+  });
+  updatedGame.lastPlay = `${player.name} marque ${num} point${num > 1 ? 's' : ''}`;
+
+  const winningScore = 50;
+  if (newScore > winningScore) {
+    handleScoreTooBig(updatedPlayer, updatedGame);
   }
-  if (newPlayer.score === objectiveScore) {
+  if (updatedPlayer.score === winningScore) {
     Alert.alert(`Victoire`, `${player.name} à gagné`, [{text: 'Good job'}]);
-    newGame.lastPlay += ` et gagne la partie!`;
+    updatedGame.lastPlay += ` et gagne la partie!`;
   }
-  checkPerfect(newPlayer, newGame);
-  newGame.currentPlayerId = getNextPlayerId(newGame);
-  setGame(newGame);
+  checkPerfect(updatedPlayer, updatedGame);
+  updatedGame.currentPlayerId = getNextPlayerId(updatedGame);
+  setGame(updatedGame);
 };
 
 export const addFail = (player: Player, game: Game): void => {
-  const newGame = memorizeGame(game);
-  const newPlayer = newGame.players.find((p) => p.id === player.id);
-  newGame.lastPlay = `${newPlayer.name} a raté`;
-  newPlayer.fail += 1;
+  const {updatedGame, updatedPlayer} = updatePlayerInGame(game, player.id, {
+    fail: player.fail + 1,
+  });
+  updatedGame.lastPlay = `${player.name} a raté`;
   const maxFail = 3;
-  if (newPlayer.fail >= maxFail) {
-    overFail(newPlayer, newGame);
+  if (updatedPlayer.fail >= maxFail) {
+    overFail(updatedPlayer, updatedGame);
   }
-  checkPerfect(newPlayer, newGame);
-  newGame.currentPlayerId = getNextPlayerId(newGame);
-  setGame(newGame);
+  checkPerfect(updatedPlayer, updatedGame);
+  updatedGame.currentPlayerId = getNextPlayerId(updatedGame);
+  setGame(updatedGame);
 };
 
-export const loadingPreviusPlay = (game: Game): void => {
+export const loadingPreviousPlay = (game: Game): void => {
   const newGame = game.lastGame;
   if (newGame) {
     setGame(newGame);

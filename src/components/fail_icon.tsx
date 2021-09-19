@@ -1,8 +1,6 @@
 import React from 'react';
-import {Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
-import {Player} from '../lib/stores';
 import {fontSizes} from '../lib/theme';
 
 interface FailIconProps {
@@ -10,9 +8,9 @@ interface FailIconProps {
   disable: boolean;
 }
 
-export const FailIcon: React.FC<FailIconProps> = (props) => (
+export const FailIcon: React.FC<FailIconProps> = ({disable, failDesign}) => (
   <FailIconWrapper>
-    <Icon style={props.disable ? {opacity: 0.3} : {}}>{props.failDesign}</Icon>
+    <Icon style={disable ? {opacity: 0.3} : {}}>{failDesign}</Icon>
   </FailIconWrapper>
 );
 FailIcon.displayName = 'FailIcon';
@@ -25,33 +23,4 @@ const FailIconWrapper = styled.View`
 
 const Icon = styled.Text`
   font-size: ${fontSizes.large}px;
-`;
-
-interface PlayerFailIconProps {
-  player: Player;
-  maxFail: number;
-}
-
-export const PlayerFailIcon: React.FC<PlayerFailIconProps> = (props) => {
-  const spacing = 4;
-  const fails: JSX.Element[] = [];
-  for (let i = 0; i < props.maxFail; i++) {
-    fails.push(
-      <View key={`spacing-${i}`} style={{width: i === 0 ? 0 : spacing}}></View>,
-      <FailIcon
-        key={`icon-${i}`}
-        failDesign={props.player.failDesign}
-        disable={i >= props.player.fail}
-      />
-    );
-  }
-  return <PlayerFailIconWrapper>{fails}</PlayerFailIconWrapper>;
-};
-PlayerFailIcon.displayName = 'PlayerFailIcon';
-
-const PlayerFailIconWrapper = styled.View`
-  display: flex;
-  flex-shrink: 0;
-  flex-direction: row;
-  align-items: center;
 `;

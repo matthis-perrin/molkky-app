@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import React from 'react';
+import React, {FC, Fragment, useCallback} from 'react';
 import styled from 'styled-components/native';
 
 import {addFail, addPlay, isDone, useGames} from '../lib/stores';
@@ -15,7 +14,7 @@ import {
   spacing,
 } from '../lib/theme';
 import {CustomButton} from './custom_buttons';
-import {PlayerFailIcon} from './fail_icon';
+import {PlayerFailIcon} from './player_fail_icon';
 
 interface PlayerViewProps {
   gameId: number;
@@ -24,21 +23,53 @@ interface PlayerViewProps {
 }
 
 const maxFail = 3;
+const currentPlayerOpacity = 1;
+const otherPlayersOpacity = 0.8;
 
-export const PlayerView: React.FC<PlayerViewProps> = (props) => {
+// Generate all the possible scores by lines of 4
+const maxScore = 12;
+const scoresPerLine = 4;
+const scores: number[][] = [];
+for (let i = 1; i <= maxScore; i++) {
+  const line = scores[scores.length - 1] as number[] | undefined;
+  if (line === undefined || line.length === scoresPerLine) {
+    scores.push([i]);
+  } else {
+    line.push(i);
+  }
+}
+
+export const PlayerView: FC<PlayerViewProps> = (props) => {
+  const {gameId, playerId, isCurrentPlayer} = props;
+
   const [games] = useGames();
-  const game = games.find((g) => g.id === props.gameId);
-  const player = game.players.find((p) => p.id === props.playerId);
-  const onPressNumber = (num: number): void => {
-    addPlay(num, player, game);
-  };
-  const onPressFail = (): void => {
+  const game = games.find((g) => g.id === gameId);
+  const player = game?.players.find((p) => p.id === playerId);
+
+  const handleScorePress = useCallback(
+    (score: number) => {
+      if (player === undefined || game === undefined) {
+        return;
+      }
+      addPlay(score, player, game);
+    },
+    [game, player]
+  );
+  const handleFailPress = useCallback(() => {
+    if (player === undefined || game === undefined) {
+      return;
+    }
     addFail(player, game);
-  };
+  }, [game, player]);
+
+  if (game === undefined || player === undefined) {
+    return <Fragment />;
+  }
+
   return (
     <PlayerViewWrapper
       style={{
-        opacity: props.isCurrentPlayer && !isDone(game) ? 1 : 0.8,
+        opacity: isCurrentPlayer && !isDone(game) ? currentPlayerOpacity : otherPlayersOpacity,
         ...elevations.medium,
       }}
     >
@@ -47,7 +78,7 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
           name={'play'}
           size={fontSizes.medium}
           color={pastilleColor}
-          style={{display: props.isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
+          style={{display: isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
         />
         <Name numberOfLines={1} ellipsizeMode="tail">
           {player.name}
@@ -55,89 +86,24 @@ export const PlayerView: React.FC<PlayerViewProps> = (props) => {
         <PlayerFailIcon player={player} maxFail={maxFail} />
         <Score>{player.score}</Score>
       </Wrapper>
-      <KeyboardWrapper
-        style={{display: props.isCurrentPlayer && !isDone(game) ? undefined : 'none'}}
-      >
+      <KeyboardWrapper style={{display: isCurrentPlayer && !isDone(game) ? undefined : 'none'}}>
         <BorderSeparator></BorderSeparator>
-        <Line>
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="1"
-            onPress={() => onPressNumber(1)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="2"
-            onPress={() => onPressNumber(2)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="3"
-            onPress={() => onPressNumber(3)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="4"
-            onPress={() => onPressNumber(4)}
-          />
-        </Line>
-        <Line>
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="5"
-            onPress={() => onPressNumber(5)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="6"
-            onPress={() => onPressNumber(6)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="7"
-            onPress={() => onPressNumber(7)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="8"
-            onPress={() => onPressNumber(8)}
-          />
-        </Line>
-        <Line>
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="9"
-            onPress={() => onPressNumber(9)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="10"
-            onPress={() => onPressNumber(10)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="11"
-            onPress={() => onPressNumber(11)}
-          />
-          <CustomButton
-            keyboardStyle
-            width={scoreButtonWidth}
-            text="12"
-            onPress={() => onPressNumber(12)}
-          />
-        </Line>
-        <CustomButton keyboardStyle text={`${player.failDesign} Raté`} onPress={onPressFail} />
+        {scores.map((line) => (
+          <Line key={line.join(',')}>
+            {line.map((score) => (
+              <CustomButton
+                key={score}
+                keyboardStyle
+                width={scoreButtonWidth}
+                text={String(score)}
+                data-score={score}
+                // eslint-disable-next-line react/jsx-no-bind
+                onPress={() => handleScorePress(score)}
+              />
+            ))}
+          </Line>
+        ))}
+        <CustomButton keyboardStyle text={`${player.failDesign} Raté`} onPress={handleFailPress} />
       </KeyboardWrapper>
     </PlayerViewWrapper>
   );

@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useCallback} from 'react';
 import styled from 'styled-components/native';
 
 import {BottomBar} from '../components/bottom_bar';
@@ -15,9 +15,9 @@ export const Accueil: React.FC = () => {
   const sortedGames = games.sort((g1, g2) => g2.creationTime - g1.creationTime);
   const gameInProgress = sortedGames.filter((g) => !isDone(g));
   const gameDone = sortedGames.filter((g) => isDone(g));
-  const onPressNewGame = (): void => {
-    createNewGame();
-  };
+
+  const handleNewGamePress = useCallback(() => createNewGame(), []);
+
   return (
     <Fragment>
       <TopBar middle={<Title>MOLKKY</Title>} />
@@ -27,11 +27,16 @@ export const Accueil: React.FC = () => {
           size="small"
         ></CustomButtonText> */}
       <WrapperAdd>
-        <CustomButton text="Nouvelle partie" icon="plus" size="large" onPress={onPressNewGame} />
+        <CustomButton
+          text="Nouvelle partie"
+          icon="plus"
+          size="large"
+          onPress={handleNewGamePress}
+        />
       </WrapperAdd>
       <StyledScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         <SpaceJoin>
-          {gameInProgress.concat(gameDone).map((g) => (
+          {[...gameInProgress, ...gameDone].map((g) => (
             <PreviewGame key={g.id} gameId={g.id} />
           ))}
         </SpaceJoin>

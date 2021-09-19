@@ -1,7 +1,7 @@
 // import {StatusBar} from '@react-native';
 // import {NavigationContainer} from '@react-navigation/native';
 // import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {Fragment} from 'react';
+import {FC, Fragment} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
@@ -14,15 +14,7 @@ import {GamePage} from './pages/game';
 
 // clearPersistentDataStore('games');
 
-export const App: React.FC = () => (
-  <SafeAreaProvider>
-    <AppWithProvider />
-    {/* <StatusBar barStyle="light-content" /> */}
-  </SafeAreaProvider>
-);
-App.displayName = 'App';
-
-const AppWithProvider: React.FC = () => {
+const App: FC = () => {
   const [app] = useApp();
 
   let content = <Fragment />;
@@ -35,12 +27,14 @@ const AppWithProvider: React.FC = () => {
   }
 
   return (
-    <AppWrapper>
-      <AppContainer>{content}</AppContainer>
-    </AppWrapper>
+    <SafeAreaProvider>
+      <AppWrapper>
+        <AppContainer>{content}</AppContainer>
+      </AppWrapper>
+    </SafeAreaProvider>
   );
 };
-AppWithProvider.displayName = 'AppWithProvider';
+App.displayName = 'App';
 
 const AppWrapper = styled.View`
   background-color: ${topBarBackgroundColor};

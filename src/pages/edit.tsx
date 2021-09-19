@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useCallback} from 'react';
 import {Alert, Keyboard} from 'react-native';
 import styled from 'styled-components/native';
 
@@ -32,11 +32,21 @@ interface EditProps {
   gameId: number;
 }
 
+const handlePlayerNameChange = (text: string, player: Player): void => {
+  player.name = text;
+};
+
 export const Edit: React.FC<EditProps> = (props) => {
+  const {gameId} = props;
+
   const [app] = useApp();
   const [games] = useGames();
-  const game = games.find((g) => g.id === props.gameId);
-  const onPressDelete = (): void => {
+  const game = games.find((g) => g.id === gameId);
+
+  const handleDeletePress = useCallback(() => {
+    if (game === undefined) {
+      return;
+    }
     Alert.alert('Confirmation', 'Voulez-vous supprimer la partie?', [
       {
         text: 'Annuler',
@@ -46,41 +56,58 @@ export const Edit: React.FC<EditProps> = (props) => {
         text: 'Supprimer',
         onPress: () => {
           setApp({...app, currentPage: 'accueil'});
-          removeGame(props.gameId);
+          removeGame(gameId);
         },
         style: 'destructive',
       },
     ]);
-  };
+  }, [app, game, gameId]);
 
-  const onPressAddPlayer = (): void => {
+  const handleAddPlayerPress = useCallback(() => {
+    if (game === undefined) {
+      return;
+    }
     addPlayer(game);
-  };
-  const onPressDeletePlayer = (player: Player): void => {
+  }, [game]);
+
+  const handleDeletePlayerPress = (player: Player): void => {
+    if (game === undefined) {
+      return;
+    }
     delPlayer(game, player);
   };
-  const onTextChange = (text: string, player: Player): void => {
-    player.name = text;
-  };
-  const sortedPlayer = [...game.players];
-  sortedPlayer.sort((p1, p2) => p2.score - p1.score);
-  if (game === undefined) {
-    return <Fragment />;
-  }
-  const onPressPlay = (): void => {
+
+  const handlePlayPress = useCallback(() => {
+    if (game === undefined) {
+      return;
+    }
     if (game.currentPlayerId === 0) {
       game.currentPlayerId = game.players[0].id;
       setGame(game);
     }
     setApp({...app, currentPage: 'playGame'});
-  };
-  const onPressSwap = (player: Player): void => {
+  }, [app, game]);
+
+  const handleSwapPress = (player: Player): void => {
+    if (game === undefined) {
+      return;
+    }
     movePlayerDown(player, game);
   };
-  const onFailDesignChange = (text: string, player: Player): void => {
+
+  const handleFailEmojiChange = (text: string, player: Player): void => {
+    if (game === undefined) {
+      return;
+    }
     setPlayerFailDesign([...text].slice(-1)[0] ?? '💣', player, game);
     Keyboard.dismiss();
   };
+
+  const sortedPlayer = [...(game?.players ?? [])];
+  sortedPlayer.sort((p1, p2) => p2.score - p1.score);
+  if (game === undefined) {
+    return <Fragment />;
+  }
 
   const scrollViewContent: JSX.Element[] = [];
   for (const [index, p] of sortedPlayer.entries()) {
@@ -89,15 +116,21 @@ export const Edit: React.FC<EditProps> = (props) => {
         <TextInputFailDesign
           caretHidden
           selectTextOnFocus
-          onChangeText={(text: string) => onFailDesignChange(text, p)}
+          // eslint-disable-next-line react/jsx-no-bind
+          onChangeText={(text: string) => handleFailEmojiChange(text, p)}
           defaultValue={p.failDesign}
         />
         <TextInputPlayer
           selectTextOnFocus
-          onChangeText={(text: string) => onTextChange(text, p)}
+          // eslint-disable-next-line react/jsx-no-bind
+          onChangeText={(text: string) => handlePlayerNameChange(text, p)}
           defaultValue={p.name}
         />
-        <CustomButton icon="backspace-outline" onPress={() => onPressDeletePlayer(p)} />
+        <CustomButton
+          icon="backspace-outline"
+          // eslint-disable-next-line react/jsx-no-bind
+          onPress={() => handleDeletePlayerPress(p)}
+        />
       </PlayerWrapper>,
 
       index === game.players.length - 1 ? (
@@ -106,7 +139,8 @@ export const Edit: React.FC<EditProps> = (props) => {
         <WrapperSwap key={index}>
           <CustomButton
             icon="swap-vertical-bold"
-            onPress={() => onPressSwap(p)}
+            // eslint-disable-next-line react/jsx-no-bind
+            onPress={() => handleSwapPress(p)}
             iconSizeRatio={1.2}
           />
         </WrapperSwap>
@@ -121,7 +155,7 @@ export const Edit: React.FC<EditProps> = (props) => {
           <CustomButton
             icon="trash-can-outline"
             text="Effacer"
-            onPress={onPressDelete}
+            onPress={handleDeletePress}
             iconSizeRatio={1.2}
             width={topBarButtonWidth}
           />
@@ -130,7 +164,7 @@ export const Edit: React.FC<EditProps> = (props) => {
         right={
           <CustomButton
             text="Jouer !"
-            onPress={onPressPlay}
+            onPress={handlePlayPress}
             disabled={game.players.length === 0}
             width={topBarButtonWidth}
           />
@@ -147,7 +181,7 @@ export const Edit: React.FC<EditProps> = (props) => {
         <CustomButton
           icon="account-plus"
           text="Ajouter joueur"
-          onPress={onPressAddPlayer}
+          onPress={handleAddPlayerPress}
           size="large"
         />
       </WrapperAdd>

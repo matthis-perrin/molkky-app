@@ -1,6 +1,6 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 
 import {
@@ -17,9 +17,9 @@ import {
 interface CustomButtonProps {
   text?: string;
   width?: number;
-  onPress: () => void;
+  onPress: (evt: GestureResponderEvent) => void;
   size?: 'small' | 'medium' | 'large';
-  icon?: string;
+  icon?: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
   disabled?: boolean;
   iconSizeRatio?: number;
   hidden?: boolean;
@@ -27,51 +27,53 @@ interface CustomButtonProps {
 }
 
 export const CustomButton: React.FC<CustomButtonProps> = (props) => {
-  const fontSize = fontSizes[props.size ?? 'medium'];
-  const height = buttonHeight[props.size ?? 'medium'];
-  const width = props.width ?? (props.text !== undefined ? '100%' : height);
-  const ratioIconSize = props.iconSizeRatio ?? 1;
+  const {width, size, iconSizeRatio, icon, text, onPress, disabled, hidden, keyboardStyle} = props;
+
+  const fontSize = fontSizes[size ?? 'medium'];
+  const cssHeight = buttonHeight[size ?? 'medium'];
+  const cssWidth = width ?? (text !== undefined ? '100%' : cssHeight);
+  const ratioIconSize = iconSizeRatio ?? 1;
   const ratioSeparatorWidth = 0.25;
   const buttonContent: JSX.Element[] = [];
   const opacityDisabled = 0.25;
-  const opacity = props.disabled ? opacityDisabled : 1;
-  if (props.icon !== undefined) {
+  const opacity = disabled ? opacityDisabled : 1;
+
+  const handleButtonPress = onPress;
+
+  if (icon !== undefined) {
     buttonContent.push(
       <MaterialCommunityIcons
         key="icon"
-        name={props.icon}
+        name={icon}
         size={fontSize * ratioIconSize}
-        color={props.keyboardStyle ? keyboardColor : buttonColor}
+        color={keyboardStyle ? keyboardColor : buttonColor}
       />
     );
-    if (props.text !== undefined) {
+    if (text !== undefined) {
       buttonContent.push(
         <Separator key="separator" style={{width: fontSize * ratioSeparatorWidth}}></Separator>
       );
     }
   }
-  if (props.text !== undefined) {
+  if (text !== undefined) {
     buttonContent.push(
-      <ButtonText
-        key="text"
-        style={{fontSize, color: props.keyboardStyle ? keyboardColor : buttonColor}}
-      >
-        {props.text}
+      <ButtonText key="text" style={{fontSize, color: keyboardStyle ? keyboardColor : buttonColor}}>
+        {text}
       </ButtonText>
     );
   }
   return (
     <TouchableOpacity
-      onPress={props.onPress}
+      onPress={handleButtonPress}
       activeOpacity={0.7}
-      disabled={props.disabled}
-      style={{...elevations.medium, opacity, display: props.hidden ? 'none' : undefined}}
+      disabled={disabled}
+      style={{...elevations.medium, opacity, display: hidden ? 'none' : undefined}}
     >
       <ButtonContent
         style={{
-          height,
-          width,
-          backgroundColor: props.keyboardStyle ? keyboardBackgroundColor : buttonBackgroundColor,
+          height: cssHeight,
+          width: cssWidth,
+          backgroundColor: keyboardStyle ? keyboardBackgroundColor : buttonBackgroundColor,
         }}
       >
         {buttonContent}
