@@ -5,20 +5,14 @@
     "lint": "eslint . --ext .tsx"
   },
   "dependencies": {
-    "@expo/vector-icons": "^10.0.0",
+    "@expo/vector-icons": "^12.0.0",
     "expo": "^42.0.0",
-    "expo-updates": "~0.2.8",
+    "expo-updates": "~0.8.2",
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-native": "0.63",
-    "react-native-elements": "^2.0.2",
-    "react-native-gesture-handler": "~1.6.0",
-    "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "3.2.0",
-    "react-native-screens": "~2.9.0",
-    "react-native-smart-emoji-picker": "^0.1.2",
-    "react-native-unimodules": "~0.10.1",
-    "react-native-web": "~0.11.7",
+    "react-native-screens": "~3.4.0",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
