@@ -22,8 +22,8 @@ const maxFail = 3;
 
 export const PreviewGame: React.FC<PreviewGameProps> = (props) => {
   const [games] = useGames();
-  const game = games.filter((g) => g.id === props.gameId)[0];
-  const sortedPlayer = game.players.slice();
+  const game = games.find((g) => g.id === props.gameId);
+  const sortedPlayer = [...game.players];
   sortedPlayer.sort((p1, p2) => p2.score - p1.score);
   const onPressGame = (): void => {
     setApp({...getApp(), currentPage: 'playGame', currentGameId: props.gameId});

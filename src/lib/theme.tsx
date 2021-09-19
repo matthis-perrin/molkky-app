@@ -64,7 +64,7 @@ export const elevations = {
       height: 1,
     },
     shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowRadius: 1,
   },
   medium: {
     // elevation = 2

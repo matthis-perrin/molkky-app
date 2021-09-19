@@ -46,7 +46,7 @@ export const createNewGame = (): void => {
     lastGame: undefined,
     lastPlay: 'La partie commence!',
   };
-  setGames(getGames().concat([newGame]));
+  setGames([...getGames(), newGame]);
   setApp({...getApp(), currentPage: 'editGame', currentGameId: newGame.id});
 };
 
@@ -67,7 +67,7 @@ export const addPlayer = (game: Game): void => {
     score: 0,
     failDesign: '💣',
   };
-  game.players = game.players.concat([newPlayer]);
+  game.players = [...game.players, newPlayer];
   setGame(game);
 };
 
@@ -83,7 +83,7 @@ const checkPerfectInternal = (player: Player, game: Game): Player[] => {
   for (const p of game.players) {
     if (p.id !== player.id && p.score === player.score) {
       p.score = Math.floor(p.score / 2);
-      return checkPerfectInternal(p, game).concat([p]);
+      return [...checkPerfectInternal(p, game), p];
     }
   }
   return [];
@@ -99,7 +99,7 @@ export const checkPerfect = (player: Player, game: Game): void => {
         .map(
           (p) =>
             `${p.name} is powned (${
-              game.lastGame?.players.filter((lastp) => p.id === lastp.id)[0].score
+              game.lastGame?.players.find((lastp) => p.id === lastp.id).score
             } => ${p.score})`
         )
         .join('\n'),
@@ -118,12 +118,12 @@ export const overFail = (player: Player, game: Game): void => {
   const objectiveScore = 50;
   if (player.score >= objectiveScore / 2) {
     player.score = objectiveScore / 2;
-    Alert.alert(`${player.failDesign}`, `${player.name} tombe à ${objectiveScore / 2}`, [
+    Alert.alert(String(player.failDesign), `${player.name} tombe à ${objectiveScore / 2}`, [
       {text: 'Haha'},
     ]);
   } else {
     player.score = 0;
-    Alert.alert(`${player.failDesign}`, `${player.name} tombe à 0`, [{text: 'Haha'}]);
+    Alert.alert(String(player.failDesign), `${player.name} tombe à 0`, [{text: 'Haha'}]);
   }
   player.fail = 0;
   checkPerfect(player, game);
@@ -163,13 +163,10 @@ export const isDone = (game: Game): boolean => {
 
 export const addPlay = (num: number, player: Player, game: Game): void => {
   const newGame = memorizeGame(game);
-  const newPlayer = newGame.players.filter((p) => p.id === player.id)[0];
-  if (num === 1) {
-    newGame.lastPlay = `${newPlayer.name} marque ${num} point`;
-  } else {
-    newGame.lastPlay = `${newPlayer.name} marque ${num} points`;
-  }
-  newPlayer.score = newPlayer.score + num;
+  const newPlayer = newGame.players.find((p) => p.id === player.id);
+  newGame.lastPlay =
+    num === 1 ? `${newPlayer.name} marque ${num} point` : `${newPlayer.name} marque ${num} points`;
+  newPlayer.score += num;
   newPlayer.fail = 0;
   const objectiveScore = 50;
   if (newPlayer.score > objectiveScore) {
@@ -186,7 +183,7 @@ export const addPlay = (num: number, player: Player, game: Game): void => {
 
 export const addFail = (player: Player, game: Game): void => {
   const newGame = memorizeGame(game);
-  const newPlayer = newGame.players.filter((p) => p.id === player.id)[0];
+  const newPlayer = newGame.players.find((p) => p.id === player.id);
   newGame.lastPlay = `${newPlayer.name} a raté`;
   newPlayer.fail += 1;
   const maxFail = 3;

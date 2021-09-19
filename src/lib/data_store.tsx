@@ -2,9 +2,9 @@ import {useEffect, useState} from 'react';
 import {AsyncStorage} from 'react-native';
 
 interface DataStoreApi<GetData, SetData> {
-  getData(): GetData;
-  setData(data: SetData): void;
-  useData(): [GetData];
+  getData: () => GetData;
+  setData: (data: SetData) => void;
+  useData: () => [GetData];
 }
 
 export function createDataStore<T>(): DataStoreApi<T | undefined, T>;

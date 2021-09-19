@@ -35,7 +35,7 @@ interface EditProps {
 export const Edit: React.FC<EditProps> = (props) => {
   const [app] = useApp();
   const [games] = useGames();
-  const game = games.filter((g) => g.id === props.gameId)[0];
+  const game = games.find((g) => g.id === props.gameId);
   const onPressDelete = (): void => {
     Alert.alert('Confirmation', 'Voulez-vous supprimer la partie?', [
       {
@@ -62,7 +62,7 @@ export const Edit: React.FC<EditProps> = (props) => {
   const onTextChange = (text: string, player: Player): void => {
     player.name = text;
   };
-  const sortedPlayer = game.players.slice();
+  const sortedPlayer = [...game.players];
   sortedPlayer.sort((p1, p2) => p2.score - p1.score);
   if (game === undefined) {
     return <Fragment />;
@@ -83,7 +83,7 @@ export const Edit: React.FC<EditProps> = (props) => {
   };
 
   const scrollViewContent: JSX.Element[] = [];
-  sortedPlayer.forEach((p, index) =>
+  for (const [index, p] of sortedPlayer.entries()) {
     scrollViewContent.push(
       <PlayerWrapper key={p.id}>
         <TextInputFailDesign
@@ -111,8 +111,8 @@ export const Edit: React.FC<EditProps> = (props) => {
           />
         </WrapperSwap>
       )
-    )
-  );
+    );
+  }
 
   return (
     <Fragment>

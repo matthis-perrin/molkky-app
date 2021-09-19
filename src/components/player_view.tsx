@@ -27,8 +27,8 @@ const maxFail = 3;
 
 export const PlayerView: React.FC<PlayerViewProps> = (props) => {
   const [games] = useGames();
-  const game = games.filter((g) => g.id === props.gameId)[0];
-  const player = game.players.filter((p) => p.id === props.playerId)[0];
+  const game = games.find((g) => g.id === props.gameId);
+  const player = game.players.find((p) => p.id === props.playerId);
   const onPressNumber = (num: number): void => {
     addPlay(num, player, game);
   };

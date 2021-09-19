@@ -24,7 +24,7 @@ interface GameProps {
 export const GamePage: React.FC<GameProps> = (props) => {
   const [app] = useApp();
   const [games] = useGames();
-  const game = games.filter((g) => g.id === props.gameId)[0];
+  const game = games.find((g) => g.id === props.gameId);
   if (game === undefined) {
     return <Fragment />;
   }
