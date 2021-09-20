@@ -1,5 +1,6 @@
-import React, {Fragment, useCallback} from 'react';
+import React, {Fragment, useCallback, useState} from 'react';
 import {Alert, Keyboard} from 'react-native';
+import EmojiSelector, {Categories} from 'react-native-emoji-selector';
 import styled from 'styled-components/native';
 
 import {BottomBar} from '../components/bottom_bar';
@@ -18,6 +19,7 @@ import {
   useGames,
 } from '../lib/stores';
 import {
+  appBackgroundColor,
   borderRadius,
   buttonHeight,
   fontSizes,
@@ -43,6 +45,7 @@ export const Edit: React.FC<EditProps> = (props) => {
   const [app] = useApp();
   const [games] = useGames();
   const game = games.find((g) => g.id === gameId);
+  const [emojiPickerPlayer, setEmojiPickerPlayer] = useState<Player | undefined>();
 
   const handleDeletePress = useCallback(() => {
     if (game === undefined) {
@@ -100,13 +103,21 @@ export const Edit: React.FC<EditProps> = (props) => {
     movePlayerDown(player, game);
   };
 
-  const handleFailEmojiChange = (text: string, player: Player): void => {
+  const handlePlayerEmojiSelected = (player: Player, emoji: string): void => {
     if (game === undefined) {
       return;
     }
-    setPlayerFailDesign([...text].slice(-1)[0] ?? '💣', player, game);
-    Keyboard.dismiss();
+    setPlayerFailDesign(emoji, player, game);
+    setEmojiPickerPlayer(undefined);
   };
+
+  const handlePlayerEmojiPress = (player: Player): void => {
+    setEmojiPickerPlayer(player);
+  };
+
+  // const handleEmojiClick = useCallback((event: any, emojiObject: any) => {
+  //   console.log(emojiObject);
+  // }, []);
 
   const sortedPlayer = [...(game?.players ?? [])];
   sortedPlayer.sort((p1, p2) => p2.score - p1.score);
@@ -118,13 +129,12 @@ export const Edit: React.FC<EditProps> = (props) => {
   for (const [index, p] of sortedPlayer.entries()) {
     scrollViewContent.push(
       <PlayerWrapper key={p.id}>
-        <TextInputFailDesign
-          caretHidden
-          selectTextOnFocus
+        <PlayerEmoji
           // eslint-disable-next-line react/jsx-no-bind
-          onChangeText={(text: string) => handleFailEmojiChange(text, p)}
-          defaultValue={p.failDesign}
-        />
+          onPress={() => handlePlayerEmojiPress(p)}
+        >
+          {p.failDesign}
+        </PlayerEmoji>
         <TextInputPlayer
           selectTextOnFocus
           // eslint-disable-next-line react/jsx-no-bind
@@ -182,6 +192,21 @@ export const Edit: React.FC<EditProps> = (props) => {
       >
         {scrollViewContent}
       </StyledScrollView>
+      {emojiPickerPlayer ? (
+        <EmojiWrapper>
+          <EmojiSelector
+            showSearchBar={false}
+            showHistory={false}
+            showTabs={false}
+            showSectionTitles={false}
+            category={Categories.all}
+            // eslint-disable-next-line react/jsx-no-bind
+            onEmojiSelected={(emoji) => handlePlayerEmojiSelected(emojiPickerPlayer, emoji)}
+          />
+        </EmojiWrapper>
+      ) : (
+        <Fragment />
+      )}
       <ButtonsWrapper>
         <ButtonWrapper>
           <CustomButton
@@ -226,13 +251,14 @@ const TextInputPlayer = styled.TextInput`
   margin: 0 ${spacing / 2}px;
 `;
 
-const TextInputFailDesign = styled.TextInput`
-  text-align: center;
+const PlayerEmoji = styled.Text`
   flex-shrink: 0;
   background-color: ${inputBackgroundColor};
   font-size: ${fontSizes.medium}px;
   height: ${buttonHeight.medium}px;
   width: ${buttonHeight.medium}px;
+  text-align: center;
+  line-height: ${buttonHeight.medium}px;
   border-radius: ${borderRadius}px;
 `;
 
@@ -262,4 +288,15 @@ const WrapperSwap = styled.View`
 const ButtonsWrapper = styled.View`
   display: flex;
   background-color: ${topBarBackgroundColor};
+`;
+
+const EmojiWrapper = styled.View`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: ${appBackgroundColor};
+  padding: 40px 0 0 0;
 `;
