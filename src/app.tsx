@@ -8,9 +8,9 @@ import styled from 'styled-components/native';
 // import {clearPersistentDataStore} from './lib/data_store';
 import {useApp} from './lib/stores';
 import {appBackgroundColor, topBarBackgroundColor} from './lib/theme';
-import {Accueil} from './pages/accueil';
 import {Edit} from './pages/edit';
 import {GamePage} from './pages/game';
+import {Home} from './pages/home';
 import {RandomTeams} from './pages/random_teams';
 
 // clearPersistentDataStore('games');
@@ -20,7 +20,7 @@ export const App: FC = () => {
 
   let content = <Fragment />;
   if (app.currentPage === 'accueil') {
-    content = <Accueil />;
+    content = <Home />;
   } else if (app.currentPage === 'playGame' && app.currentGameId !== undefined) {
     content = <GamePage gameId={app.currentGameId} />;
   } else if (app.currentPage === 'editGame' && app.currentGameId !== undefined) {

@@ -6,12 +6,13 @@ import {CustomButton} from '../components/custom_buttons';
 import {PlayerView} from '../components/player_view';
 import {SpaceJoin} from '../components/space_join';
 import {TopBar} from '../components/top_bar';
-import {loadingPreviousPlay, setApp, useApp, useGames} from '../lib/stores';
+import {createNewGame, loadingPreviousPlay, setApp, useApp, useGames} from '../lib/stores';
 import {
   bannerBackgroundColor,
   bannerColor,
   fontSizes,
   spacing,
+  topBarBackgroundColor,
   topBarButtonWidth,
   topBarColor,
 } from '../lib/theme';
@@ -33,6 +34,7 @@ export const GamePage: React.FC<GameProps> = (props) => {
     }
     loadingPreviousPlay(game);
   }, [game]);
+  const handleRematchPress = useCallback(() => createNewGame(game?.players ?? []), [game?.players]);
 
   if (game === undefined) {
     return <Fragment />;
@@ -83,6 +85,17 @@ export const GamePage: React.FC<GameProps> = (props) => {
         </SpaceJoin>
         <BottomBar />
       </PlayerScrollView>
+      <ButtonsWrapper>
+        <ButtonWrapper>
+          <CustomButton
+            // icon="dice-3"
+            text="Revanche !"
+            onPress={handleRematchPress}
+            size="large"
+          />
+        </ButtonWrapper>
+      </ButtonsWrapper>
+      <BottomBar dark />
     </Fragment>
   );
 };
@@ -115,4 +128,15 @@ const WrapperCancel = styled.View`
 
 const TextLastPlay = styled.Text`
   color: ${bannerColor};
+`;
+
+const ButtonsWrapper = styled.View`
+  display: flex;
+  background-color: ${topBarBackgroundColor};
+`;
+
+const ButtonWrapper = styled.View`
+  margin: ${spacing}px;
+  margin-bottom: 0;
+  background-color: transparent;
 `;

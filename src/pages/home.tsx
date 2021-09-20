@@ -18,7 +18,7 @@ import {
   topBarColor,
 } from '../lib/theme';
 
-export const Accueil: React.FC = () => {
+export const Home: React.FC = () => {
   const [modalShown, setModalShown] = useState(false);
 
   const [games] = useGames();
@@ -26,7 +26,7 @@ export const Accueil: React.FC = () => {
   const gameInProgress = sortedGames.filter((g) => !isDone(g));
   const gameDone = sortedGames.filter((g) => isDone(g));
 
-  const handleNewGamePress = useCallback(() => createNewGame(), []);
+  const handleNewGamePress = useCallback(() => createNewGame([]), []);
   const handleShowPositionsPress = useCallback(() => setModalShown(true), []);
   const handleModalTouch = useCallback(() => setModalShown(false), []);
 
@@ -120,7 +120,7 @@ export const Accueil: React.FC = () => {
     </Fragment>
   );
 };
-Accueil.displayName = 'Accueil';
+Home.displayName = 'Home';
 
 const Title = styled.Text`
   font-size: ${fontSizes.medium}px;

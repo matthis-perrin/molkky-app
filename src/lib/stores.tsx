@@ -36,12 +36,19 @@ export const getApp = appStore.getData;
 export const setApp = appStore.setData;
 export const useApp = appStore.useData;
 
-export const createNewGame = (): void => {
+export const createNewGame = (players: Player[]): void => {
   const newGame: Game = {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     id: Math.round(Math.random() * 1000000),
     creationTime: Date.now(),
-    players: [],
+    players: players.map(({name, failDesign}) => ({
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      id: Math.round(Math.random() * 1000000),
+      name,
+      fail: 0,
+      score: 0,
+      failDesign,
+    })),
     currentPlayerId: 0,
     lastGame: undefined,
     lastPlay: 'La partie commence!',
