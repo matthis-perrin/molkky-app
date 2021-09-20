@@ -31,7 +31,7 @@ const maxScore = 12;
 const scoresPerLine = 4;
 const scores: number[][] = [];
 for (let i = 1; i <= maxScore; i++) {
-  const line = scores[scores.length - 1] as number[] | undefined;
+  const line = scores.at(-1);
   if (line === undefined || line.length === scoresPerLine) {
     scores.push([i]);
   } else {

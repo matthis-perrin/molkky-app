@@ -92,7 +92,7 @@ export const RandomTeams: React.FC<RandomTeamsProps> = (props) => {
         id: Math.round(Math.random() * 1000000),
         fail: 0,
         score: 0,
-        ...(current ?? {}),
+        ...current,
         ...{
           name: teamName,
           failDesign: '💣',

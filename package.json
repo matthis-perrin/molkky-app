@@ -21,7 +21,7 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@types/styled-components-react-native": "^5.1.1",
-    "eslint-config-matthis-web": "^1.0.5",
-    "typescript": "4.3.x"
+    "eslint-config-matthis-web": "latest",
+    "typescript": "4.4.x"
   }
 }

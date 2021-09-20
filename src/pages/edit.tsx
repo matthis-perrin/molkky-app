@@ -104,7 +104,7 @@ export const Edit: React.FC<EditProps> = (props) => {
     if (game === undefined) {
       return;
     }
-    setPlayerFailDesign([...text].slice(-1)[0] ?? '💣', player, game);
+    setPlayerFailDesign([...text].at(-1) ?? '💣', player, game);
     Keyboard.dismiss();
   };
 
