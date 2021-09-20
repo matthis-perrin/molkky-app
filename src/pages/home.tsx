@@ -6,6 +6,7 @@ import {BottomBar} from '../components/bottom_bar';
 import {CustomButton} from '../components/custom_buttons';
 import {PreviewGame} from '../components/preview_game';
 import {SpaceJoin} from '../components/space_join';
+import {Spacing} from '../components/spacing';
 import {TopBar} from '../components/top_bar';
 // import {clearPersistentDataStore} from '../lib/data_store';
 import {createNewGame, isDone, useGames} from '../lib/stores';
@@ -42,7 +43,7 @@ export const Home: React.FC = () => {
           />
         }
         middle={<Title>MOLKKY</Title>}
-        right={<MaterialCommunityIcons name="cog-outline" size={24} color={'white'} />}
+        right={<Spacing width={24} />}
       />
       {/* <CustomButtonText
           text="Reset Data"

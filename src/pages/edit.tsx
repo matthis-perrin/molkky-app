@@ -1,5 +1,5 @@
 import React, {Fragment, useCallback, useState} from 'react';
-import {Alert, Keyboard} from 'react-native';
+import {Alert} from 'react-native';
 import EmojiSelector, {Categories} from 'react-native-emoji-selector';
 import styled from 'styled-components/native';
 
