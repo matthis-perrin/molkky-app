@@ -1,10 +1,10 @@
 import React, {Fragment, useCallback, useState} from 'react';
 import {Alert} from 'react-native';
-import EmojiSelector, {Categories} from 'react-native-emoji-selector';
 import styled from 'styled-components/native';
 
 import {BottomBar} from '../components/bottom_bar';
 import {CustomButton} from '../components/custom_buttons';
+import {Categories, EmojiSelector} from '../components/emoji_picker';
 import {TopBar} from '../components/top_bar';
 import {
   addPlayer,
@@ -129,23 +129,13 @@ export const Edit: React.FC<EditProps> = (props) => {
   for (const [index, p] of sortedPlayer.entries()) {
     scrollViewContent.push(
       <PlayerWrapper key={p.id}>
-        <PlayerEmoji
-          // eslint-disable-next-line react/jsx-no-bind
-          onPress={() => handlePlayerEmojiPress(p)}
-        >
-          {p.failDesign}
-        </PlayerEmoji>
+        <PlayerEmoji onPress={() => handlePlayerEmojiPress(p)}>{p.failDesign}</PlayerEmoji>
         <TextInputPlayer
           selectTextOnFocus
-          // eslint-disable-next-line react/jsx-no-bind
           onChangeText={(text: string) => handlePlayerNameChange(text, p)}
           defaultValue={p.name}
         />
-        <CustomButton
-          icon="trash-can-outline"
-          // eslint-disable-next-line react/jsx-no-bind
-          onPress={() => handleDeletePlayerPress(p)}
-        />
+        <CustomButton icon="trash-can-outline" onPress={() => handleDeletePlayerPress(p)} />
       </PlayerWrapper>,
 
       index === game.players.length - 1 ? (
@@ -154,7 +144,6 @@ export const Edit: React.FC<EditProps> = (props) => {
         <WrapperSwap key={index}>
           <CustomButton
             icon="swap-vertical-bold"
-            // eslint-disable-next-line react/jsx-no-bind
             onPress={() => handleSwapPress(p)}
             iconSizeRatio={1.2}
           />
@@ -195,12 +184,14 @@ export const Edit: React.FC<EditProps> = (props) => {
       {emojiPickerPlayer ? (
         <EmojiWrapper>
           <EmojiSelector
+            theme="#007AFF"
+            columns={6}
+            placeholder="Search..."
             showSearchBar={false}
             showHistory={false}
             showTabs={false}
             showSectionTitles={false}
             category={Categories.all}
-            // eslint-disable-next-line react/jsx-no-bind
             onEmojiSelected={(emoji) => handlePlayerEmojiSelected(emojiPickerPlayer, emoji)}
           />
         </EmojiWrapper>
